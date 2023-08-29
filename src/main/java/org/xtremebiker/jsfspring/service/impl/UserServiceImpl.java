@@ -35,13 +35,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public boolean auth(String userName, String password) {
-        UserEntity userEntity = userRepo.findByUserName(userName).orElseThrow(
-                () -> new BaseException("Не найден", HttpStatus.NOT_FOUND));
-        if (passwordEncoder.matches(userEntity.getPassword(), password)) {
-            return true;
+    public UserDetails auth(String userName, String password) {
+        UserDetails userDetails = loadUserByUsername(userName);
+        if (passwordEncoder.matches(userDetails.getPassword(), password)) {
+            return userDetails;
         }
-        else return false;
+        else return userDetails;
 
     }
 

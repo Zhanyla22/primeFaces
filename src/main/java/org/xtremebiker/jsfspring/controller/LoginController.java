@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.xtremebiker.jsfspring.dto.request.LoginRequest;
-import org.xtremebiker.jsfspring.entity.UserEntity;
 import org.xtremebiker.jsfspring.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -38,10 +38,14 @@ public class LoginController {
     }
 
     public String auth() {
-        if (userService.auth(loginRequest.getUserName(), loginRequest.getPassword())) {
-            return "";
-        } else
-            return "";
+        UserDetails userDetails = userService.auth(loginRequest.getUserName(),loginRequest.getPassword());
+        if(userDetails !=null && userDetails.getAuthorities().equals("ADMIN")){
+            return "/ui/test.xhtml";
+        }
+        if (userDetails !=null && userDetails.getAuthorities().equals("USER")){
+            return "/ui/user.xhtml";
+        }
+        else return "/ui/test.xhtml";
     }
 
     public String doLogin() throws ServletException, IOException {
@@ -51,7 +55,12 @@ public class LoginController {
         FacesContext.getCurrentInstance().responseComplete();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && !(auth instanceof AnonymousAuthenticationToken) && auth.isAuthenticated()) {
-            UserEntity userSecurity = (UserEntity) ((Authentication) auth).getPrincipal();
+            UserDetails userSecurity = (UserDetails) ((Authentication) auth).getPrincipal();
+            if (userSecurity.getAuthorities().equals("ADMIN")) {
+                return "/ui/test.xhtml";
+            } else if (userSecurity.getAuthorities().equals("USER")) {
+                return "/ui/user.xhtml";
+            }
         }
         return "";
     }
