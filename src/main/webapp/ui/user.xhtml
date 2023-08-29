@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Страница опозданий</title>
+</h:head>
+<h:body>
+    <h:form>
+        <br/>
+        <p:dataTable value="#{testTest.getAllByUser(1)}" var="row1" responsive="true" style="display: flex; justify-content: center;">
+            <p:column headerText="Дата" style=" text-align: center;">
+                <h:outputText value="#{}"/>
+            </p:column>
+            <p:column headerText="Задержка в минутах" style=" text-align: center;">
+                <h:outputText value="10"/>
+            </p:column>
+            <p:column headerText="Стрик" style=" text-align: center;">
+                <h:outputText value="1"/>
+            </p:column>
+            <p:column headerText="Деньги" style=" text-align: center;">
+                <h:outputText value="10"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+</html>

@@ -20,5 +20,4 @@ public class MyBean {
 	public String getDate() {
 		return new Date().toString();
 	}
-
 }

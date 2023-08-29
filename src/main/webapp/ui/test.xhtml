@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:f="http://java.sun.com/jsf/core"
+      xsi:schemaLocation="http://primefaces.org/ui ">
+<h:head>
+    <title>Страница опозданий</title>
+</h:head>
+<h:body>
+    <div>
+        <h:form>
+            <br/>
+            <div style="padding: 10px">
+                <div style="float:left;">
+                    <p:linkButton value="выход" outcome="login" type="button" styleClass="ui-button-danger"/> <br/>
+                    <br/>
+                </div>
+                <div style="float: right;">
+                    <p:commandButton value="добавить" type="button" onclick="PF('dlg2').show();"
+                                     styleClass="ui-button-success"/>
+                    <br/><br/>
+                </div>
+            </div>
+            <p:dialog header="Добавить опоздание" id="modal" widgetVar="dlg2" modal="true" width="25%" height="200">
+                    <p:selectOneMenu id="user" value="#{userController.saveDto.userId}" style="width: 67.5% !important">
+                        <f:selectItem itemLabel="выберите сотрудника" itemValue="" noSelectionOption="false"/>
+                        <f:selectItems id="labeled" value="#{userController.allUsers}" var="labeled" itemLabel="#{labeled.name}"
+                                       itemValue="#{labeled.userId}"/>
+                    </p:selectOneMenu>
+                <br/> <br/>
+                <p:datePicker id="date" placeholder="выберите дату" value="#{userController.saveDto.date}"  pattern="dd-MM-yyyy" mask="true" required="true" showOn="button"/> <br/> <br/>
+                <p:inputNumber id="min" placeholder="минута" value="#{userController.saveDto.min}"/> <br/> <br/>
+                <p:commandButton value="Добавить" process="@this" update="modal"  action="#{userController.save}"
+                                 styleClass="ui-button-success">
+                </p:commandButton>
+            </p:dialog>
+            <div style="padding: 50px">
+            <br/>
+
+            <p:dataTable var="row" value="#{testController.allUsers}" lazy="true" rows="5"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                         currentPageReportTemplate="{startRecord}-{endRecord} из {totalRecords} "
+                         rowsPerPageTemplate="5,10,20"
+                         paginatorPosition="bottom"
+                         sortable="true"
+            >
+                <p:column headerText="Сотрудник" sortBy="#{row.userName}" style=" text-align: center;">
+                    <h:outputText value="#{row.userName}"/>
+                </p:column>
+                <p:column sortBy="#{row.dateAttendance}" headerText="Дата" style=" text-align: center;">
+                    <h:outputText value="#{row.dateAttendance}"/>
+                </p:column>
+                <p:column sortBy="#{row.delayInMin}" headerText="Задержка в минутах" style=" text-align: center;">
+                    <h:outputText value="#{row.delayInMin}"/>
+                </p:column>
+                <p:column sortBy="#{row.streak}" headerText="Стрик" style=" text-align: center;">
+                    <h:outputText value="#{row.streak}"/>
+                </p:column>
+                <p:column sortBy="#{row.money}" headerText="Деньги" style=" text-align: center;">
+                    <h:outputText value="#{row.money}"/>
+                </p:column>
+            </p:dataTable>
+            </div>
+        </h:form>
+    </div>
+</h:body>
+</html>
