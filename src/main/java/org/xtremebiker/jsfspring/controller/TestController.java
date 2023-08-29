@@ -1,9 +1,14 @@
 package org.xtremebiker.jsfspring.controller;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.xtremebiker.jsfspring.dto.response.AllAttendance;
+import org.xtremebiker.jsfspring.dto.response.DelayUserDto;
 import org.xtremebiker.jsfspring.service.AttendRecordService;
+import org.xtremebiker.jsfspring.service.impl.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -17,27 +22,35 @@ public class TestController {
 
     private final AttendRecordService attendRecordService;
 
-    public TestController(AttendRecordService attendRecordService) {
+    private final UserServiceImpl userService;
+
+    public TestController(AttendRecordService attendRecordService, UserServiceImpl userService) {
         this.attendRecordService = attendRecordService;
+        this.userService = userService;
     }
+
+    private AllAttendance allAttendance;
 
     @PostConstruct
     public void init() {
-        System.out.println("start init");
+       allAttendance = new AllAttendance();
     }
 
-    //    @PostMapping("/add")
-//    public ResponseEntity<ResponseDto> add(AddDelayDto addDelayDto) {
-//        return constructSuccessResponse(attendRecordService.addDelayMin(addDelayDto));
-//    }
-//
-//    //    @GetMapping("/{id}")
-//    public List<DelayUserDto> getAllByUser(Long id) {
-//        return attendRecordService.getAllByUser(id);
-//    }
+    private AllAttendance getAllAttendance(){
+        return allAttendance;
+    }
+
 
     public List<AllAttendance> getAllUsers() {
         return attendRecordService.getAllAttendance();
+    }
+
+    public List<DelayUserDto> getAllAttendanceByUser(){
+        return attendRecordService.getAllByUser(userService.getCurrentUser().getUsername());
+    }
+
+    public void delete(Long id){
+        attendRecordService.deleteById(id);
     }
 
 

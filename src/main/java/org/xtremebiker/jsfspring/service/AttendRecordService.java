@@ -12,7 +12,9 @@ public interface AttendRecordService {
 
     AddAttendResponse addDelayMin(AddDelayDto addDelayDto);
 
-    List<DelayUserDto> getAllByUser(Long id);
+    List<DelayUserDto> getAllByUser(String userName);
 
     List<AllAttendance> getAllAttendance();
+
+    void deleteById(Long id);
 }

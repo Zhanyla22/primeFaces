@@ -11,15 +11,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AllAttendance {
+public class GetAttendanceUser {
 
-    Long attendanceId;
+    LocalDate date;
 
-    String userName;
-
-    LocalDate dateAttendance;
-
-    Integer delayInMin;
+    Integer min;
 
     Integer streak;
 

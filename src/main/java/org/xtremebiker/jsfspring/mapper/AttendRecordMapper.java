@@ -37,6 +37,7 @@ public class AttendRecordMapper {
 
     public static AllAttendance entityToDto(AttendRecord attendRecord) {
         return AllAttendance.builder()
+                .attendanceId(attendRecord.getId())
                 .dateAttendance(attendRecord.getAttendDate())
                 .userName(attendRecord.getUserEntity().getFirstName())
                 .delayInMin(attendRecord.getDelayInMin())

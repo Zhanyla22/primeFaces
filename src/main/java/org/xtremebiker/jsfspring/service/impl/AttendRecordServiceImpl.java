@@ -61,13 +61,23 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     }
 
     @Override
-    public List<DelayUserDto> getAllByUser(Long id) {
+    public List<DelayUserDto> getAllByUser(String userName) {
         return AttendRecordMapper
-                .entityListToDelayUserDtoList(attendanceRepo.getAttendRecordsByUserEntityIdOrderByAttendDateDesc(id));
+                .entityListToDelayUserDtoList(attendanceRepo.getAttendRecordsByUserEntityUserNameOrderByAttendDateDesc(userName));
     }
 
     @Override
     public List<AllAttendance> getAllAttendance() {
         return AttendRecordMapper.entityListToDtoList(attendanceRepo.findAll());
     }
+
+    @Override
+    public void deleteById(Long id) {
+        AttendRecord attendRecord=attendanceRepo.getById(id);
+        attendanceRepo.deleteById(attendRecord.getId());
+        attendanceRepo.save(attendRecord);
+
+    }
+
+
 }

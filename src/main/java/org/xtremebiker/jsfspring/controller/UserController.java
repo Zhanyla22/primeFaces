@@ -51,4 +51,6 @@ public class UserController {
         FacesMessage msg = new FacesMessage("опоздание добавлено",saveDto.getUserId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
+
+
 }

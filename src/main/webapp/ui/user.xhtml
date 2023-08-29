@@ -8,18 +8,18 @@
 <h:body>
     <h:form>
         <br/>
-        <p:dataTable value="#{testTest.getAllByUser(1)}" var="row1" responsive="true" style="display: flex; justify-content: center;">
+        <p:dataTable value="#{testController.allAttendanceByUser}" var="row1" lazy="true" style="display: flex; justify-content: center;">
             <p:column headerText="Дата" style=" text-align: center;">
-                <h:outputText value="#{}"/>
+                <h:outputText value="#{row1.delayDate}"/>
             </p:column>
             <p:column headerText="Задержка в минутах" style=" text-align: center;">
-                <h:outputText value="10"/>
+                <h:outputText value="#{row1.delayMin}"/>
             </p:column>
             <p:column headerText="Стрик" style=" text-align: center;">
-                <h:outputText value="1"/>
+                <h:outputText value="#{row1.streak}"/>
             </p:column>
             <p:column headerText="Деньги" style=" text-align: center;">
-                <h:outputText value="10"/>
+                <h:outputText value="#{row1.money}"/>
             </p:column>
         </p:dataTable>
     </h:form>

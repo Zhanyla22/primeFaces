@@ -61,6 +61,11 @@
                 <p:column sortBy="#{row.money}" headerText="Деньги" style=" text-align: center;">
                     <h:outputText value="#{row.money}"/>
                 </p:column>
+                <p:column style="width: 90px;">
+                    <p:button icon="pi pi-trash" style="margin-right: 5px;" styleClass="ui-button-danger" onclick="#{testController.delete(row.id)}"/>
+                    <p:button icon="pi pi-pencil" />
+                </p:column>
+
             </p:dataTable>
             </div>
         </h:form>

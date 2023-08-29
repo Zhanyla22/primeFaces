@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -38,15 +39,20 @@ public class LoginController {
     }
 
     public String auth() {
-        UserDetails userDetails = userService.auth(loginRequest.getUserName(),loginRequest.getPassword());
-        if(userDetails !=null && userDetails.getAuthorities().equals("ADMIN")){
-            return "/ui/test.xhtml";
+        UserDetails userDetails = userService.auth(loginRequest.getUserName(), loginRequest.getPassword());
+        if (userDetails != null) {
+            for (GrantedAuthority authority : userDetails.getAuthorities()) {
+                if ("ADMIN".equals(authority.getAuthority())) {
+                    return "/ui/test.xhtml";
+                }
+                if ("USER".equals(authority.getAuthority())) {
+                    return "/ui/user.xhtml";
+                }
+            }
         }
-        if (userDetails !=null && userDetails.getAuthorities().equals("USER")){
-            return "/ui/user.xhtml";
-        }
-        else return "/ui/test.xhtml";
+        return null;
     }
+
 
     public String doLogin() throws ServletException, IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
