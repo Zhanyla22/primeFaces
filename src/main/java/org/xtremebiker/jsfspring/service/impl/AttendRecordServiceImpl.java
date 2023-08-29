@@ -73,11 +73,10 @@ public class AttendRecordServiceImpl implements AttendRecordService {
 
     @Override
     public void deleteById(Long id) {
-        AttendRecord attendRecord=attendanceRepo.getById(id);
+        AttendRecord attendRecord = attendanceRepo.getById(id);
         attendanceRepo.deleteById(attendRecord.getId());
         attendanceRepo.save(attendRecord);
 
     }
-
 
 }

@@ -8,7 +8,8 @@
 <h:body>
     <h:form>
         <br/>
-        <p:dataTable value="#{testController.allAttendanceByUser}" var="row1" lazy="true" style="display: flex; justify-content: center;">
+        <p:dataTable value="#{testController.allAttendanceByUser}" var="row1" lazy="true"
+                     style="display: flex; justify-content: center;">
             <p:column headerText="Дата" style=" text-align: center;">
                 <h:outputText value="#{row1.delayDate}"/>
             </p:column>

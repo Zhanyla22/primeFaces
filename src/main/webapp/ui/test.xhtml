@@ -23,50 +23,52 @@
                 </div>
             </div>
             <p:dialog header="Добавить опоздание" id="modal" widgetVar="dlg2" modal="true" width="25%" height="200">
-                    <p:selectOneMenu id="userId" value="#{userController.saveDto.userId}" style="width: 67.5% !important">
-                        <f:selectItem itemLabel="выберите сотрудника" itemValue="" noSelectionOption="false"/>
-                        <f:selectItems id="labeled" value="#{userController.allUsers}" var="labeled" itemLabel="#{labeled.name}"
-                                       itemValue="#{labeled.userId}"/>
-                    </p:selectOneMenu>
+                <p:selectOneMenu id="userId" value="#{userController.saveDto.userId}" style="width: 67.5% !important">
+                    <f:selectItem itemLabel="выберите сотрудника" itemValue="" noSelectionOption="false"/>
+                    <f:selectItems id="labeled" value="#{userController.allUsers}" var="labeled"
+                                   itemLabel="#{labeled.name}"
+                                   itemValue="#{labeled.userId}"/>
+                </p:selectOneMenu>
                 <br/> <br/>
-                <p:datePicker id="date" placeholder="выберите дату" value="#{userController.saveDto.date}"  pattern="yyyy-MM-dd" mask="true" required="true" showOn="button"/> <br/> <br/>
+                <p:datePicker id="date" placeholder="выберите дату" value="#{userController.saveDto.date}"
+                              pattern="yyyy-MM-dd" mask="true" required="true" showOn="button"/> <br/> <br/>
                 <p:inputText id="min" placeholder="минута" value="#{userController.saveDto.min}"/> <br/> <br/>
-                <p:commandButton value="Добавить" process="@form" update="modal"  action="#{userController.save}"
+                <p:commandButton value="Добавить" process="@form" update="modal" action="#{userController.save}"
                                  styleClass="ui-button-success">
                 </p:commandButton>
             </p:dialog>
             <div style="padding: 50px">
-            <br/>
+                <br/>
 
-            <p:dataTable var="row" value="#{testController.allUsers}" lazy="true"
-                         paginator="true"
-                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
-                         currentPageReportTemplate="{startRecord}-{endRecord} из {totalRecords} "
-                         rowsPerPageTemplate="5,10,{ShowAll|'All'}" rows="10"
-                         paginatorPosition="bottom"
-                         sortable="true"
-            >
-                <p:column headerText="Сотрудник" sortBy="#{row.userName}" style=" text-align: center;">
-                    <h:outputText value="#{row.userName}"/>
-                </p:column>
-                <p:column sortBy="#{row.dateAttendance}" headerText="Дата" style=" text-align: center;">
-                    <h:outputText value="#{row.dateAttendance}"/>
-                </p:column>
-                <p:column sortBy="#{row.delayInMin}" headerText="Задержка в минутах" style=" text-align: center;">
-                    <h:outputText value="#{row.delayInMin}"/>
-                </p:column>
-                <p:column sortBy="#{row.streak}" headerText="Стрик" style=" text-align: center;">
-                    <h:outputText value="#{row.streak}"/>
-                </p:column>
-                <p:column sortBy="#{row.money}" headerText="Деньги" style=" text-align: center;">
-                    <h:outputText value="#{row.money}"/>
-                </p:column>
-                <p:column style="width: 90px;">
-                    <p:button icon="pi pi-trash" style="margin-right: 5px;" styleClass="ui-button-danger" onclick="#{testController.delete(row.id)}"/>
-                    <p:button icon="pi pi-pencil" />
-                </p:column>
+                <p:dataTable var="row" value="#{testController.allUsers}" lazy="true"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
+                             currentPageReportTemplate="{startRecord}-{endRecord} из {totalRecords} "
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" rows="10"
+                             paginatorPosition="bottom"
+                             sortable="true"
+                >
+                    <p:column headerText="Сотрудник" sortBy="#{row.userName}" style=" text-align: center;">
+                        <h:outputText value="#{row.userName}"/>
+                    </p:column>
+                    <p:column sortBy="#{row.dateAttendance}" headerText="Дата" style=" text-align: center;">
+                        <h:outputText value="#{row.dateAttendance}"/>
+                    </p:column>
+                    <p:column sortBy="#{row.delayInMin}" headerText="Задержка в минутах" style=" text-align: center;">
+                        <h:outputText value="#{row.delayInMin}"/>
+                    </p:column>
+                    <p:column sortBy="#{row.streak}" headerText="Стрик" style=" text-align: center;">
+                        <h:outputText value="#{row.streak}"/>
+                    </p:column>
+                    <p:column sortBy="#{row.money}" headerText="Деньги" style=" text-align: center;">
+                        <h:outputText value="#{row.money}"/>
+                    </p:column>
+                    <p:column style="width: 90px;">
+                        <p:button icon="pi pi-trash" style="margin-right: 5px;" styleClass="ui-button-danger"/>
+                        <p:button icon="pi pi-pencil"/>
+                    </p:column>
 
-            </p:dataTable>
+                </p:dataTable>
             </div>
         </h:form>
     </div>

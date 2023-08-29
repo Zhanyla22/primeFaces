@@ -20,7 +20,7 @@ public interface AttendanceRepo extends JpaRepository<AttendRecord, Long> {
 
     List<AttendRecord> getAttendRecordsByUserEntityUserNameOrderByAttendDateDesc(String userName);
 
-    @Query(value = "SELECT * FROM attendance a ORDER BY attend_date DESC ",nativeQuery = true)
+    @Query(value = "SELECT * FROM attendance a ORDER BY attend_date DESC ", nativeQuery = true)
     List<AttendRecord> findAll();
 
 }

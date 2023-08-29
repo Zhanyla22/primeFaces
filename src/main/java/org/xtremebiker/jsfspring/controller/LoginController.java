@@ -40,7 +40,7 @@ public class LoginController {
 
     public String auth() {
         UserDetails userDetails = userService.auth(loginRequest.getUserName(), loginRequest.getPassword());
-        if (userDetails != null) {
+        if (loginRequest.getPassword() !=null && userDetails != null) {
             for (GrantedAuthority authority : userDetails.getAuthorities()) {
                 if ("ADMIN".equals(authority.getAuthority())) {
                     return "/ui/test.xhtml";
