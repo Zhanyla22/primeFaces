@@ -63,7 +63,7 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     @Override
     public List<DelayUserDto> getAllByUser(Long id) {
         return AttendRecordMapper
-                .entityListToDelayUserDtoList(attendanceRepo.getAttendRecordsByUserEntityId(id));
+                .entityListToDelayUserDtoList(attendanceRepo.getAttendRecordsByUserEntityIdOrderByAttendDateDesc(id));
     }
 
     @Override

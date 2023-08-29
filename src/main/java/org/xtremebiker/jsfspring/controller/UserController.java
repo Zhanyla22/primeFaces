@@ -28,7 +28,6 @@ public class UserController {
     private SaveDto saveDto;
 
     public List<UserDto> getAllUsers() {
-
         return userService.getAllUsers();
     }
 
@@ -49,10 +48,7 @@ public class UserController {
                         .delayInMin(saveDto.getMin())
                         .build()
         );
-        FacesMessage msg = new FacesMessage("опоздание добавлено");
+        FacesMessage msg = new FacesMessage("опоздание добавлено",saveDto.getUserId().toString());
         FacesContext.getCurrentInstance().addMessage(null, msg);
-//        user.setUserId(null);
-//        date = null;
-//        min=null;
     }
 }

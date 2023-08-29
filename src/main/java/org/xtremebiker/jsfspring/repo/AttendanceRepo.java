@@ -17,6 +17,10 @@ public interface AttendanceRepo extends JpaRepository<AttendRecord, Long> {
     @Query(value = "SELECT * FROM attendance a WHERE a.user_entity_id = ?1  ORDER BY a.created_date desc LIMIT 1 ", nativeQuery = true)
     Optional<AttendRecord> findLast(Long id);
 
-    List<AttendRecord> getAttendRecordsByUserEntityId(Long id);
+
+    List<AttendRecord> getAttendRecordsByUserEntityIdOrderByAttendDateDesc(Long id);
+
+    @Query(value = "SELECT * FROM attendance a ORDER BY attend_date DESC ",nativeQuery = true)
+    List<AttendRecord> findAll();
 
 }

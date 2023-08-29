@@ -12,8 +12,6 @@ import javax.faces.bean.ManagedBean;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@ManagedBean(name = "loginDto")
-@Scope
 public class LoginRequest {
 
     String userName;

@@ -7,4 +7,6 @@ import java.util.List;
 public interface UserService {
 
     List<UserDto> getAllUsers();
+
+    boolean auth(String userName, String password);
 }
