@@ -1,9 +1,8 @@
 package org.xtremebiker.jsfspring.dto.request;
 
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -11,13 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddDelayDto {
+public class UpdateAttendanceFront {
 
-    Long userId;
-
-    LocalDate date;
-
-    Integer delayInMin;
-
-    Long money;
+    Integer min;
 }

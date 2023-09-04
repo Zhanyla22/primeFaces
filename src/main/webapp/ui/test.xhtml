@@ -6,70 +6,97 @@
       xsi:schemaLocation="http://primefaces.org/ui ">
 <h:head>
     <title>Страница опозданий</title>
+    <style>
+        .container {
+            width: 100%; /* Take up the entire width of the page */
+            display: flex; /* Use flexbox to arrange sections horizontally */
+        }
+
+        .section {
+            flex: 1; /* Make each section take up an equal amount of space */
+            padding: 10px; /* Add padding for spacing */
+            text-align: center;
+        }
+    </style>
 </h:head>
 <h:body>
     <div>
         <h:form>
             <br/>
-            <div style="padding: 10px">
-                <div style="float:left;">
-                    <p:linkButton value="выход" outcome="login" type="button" styleClass="ui-button-danger"/> <br/>
-                    <br/>
+            <div class="container">
+                <div class="section">
+                    <p:commandButton value="Выход" ajax="false" onclick="window.location.href='/logout'"
+                                     styleClass="ui-button-danger"/>
+                    <br/><br/>
                 </div>
-                <div style="float: right;">
+                <div class="section">
+                    <p:linkButton value="удаленные" outcome="deleted" type="button"/>
+                    <br/><br/>
+                </div>
+                <div class="section">
                     <p:commandButton value="добавить" type="button" onclick="PF('dlg2').show();"
                                      styleClass="ui-button-success"/>
                     <br/><br/>
                 </div>
             </div>
+
             <p:dialog header="Добавить опоздание" id="modal" widgetVar="dlg2" modal="true" width="25%" height="200">
-                <p:selectOneMenu id="userId" value="#{userController.saveDto.userId}" style="width: 67.5% !important">
+                <p:selectOneMenu id="userId" value="#{testController.saveDto.userId}" style="width: 67.5% !important"
+                                 required="true">
                     <f:selectItem itemLabel="выберите сотрудника" itemValue="" noSelectionOption="false"/>
                     <f:selectItems id="labeled" value="#{userController.allUsers}" var="labeled"
                                    itemLabel="#{labeled.name}"
                                    itemValue="#{labeled.userId}"/>
                 </p:selectOneMenu>
+
                 <br/> <br/>
-                <p:datePicker id="date" placeholder="выберите дату" value="#{userController.saveDto.date}"
+                <p:datePicker id="date" placeholder="выберите дату" value="#{testController.saveDto.date}"
                               pattern="yyyy-MM-dd" mask="true" required="true" showOn="button"/> <br/> <br/>
-                <p:inputText id="min" placeholder="минута" value="#{userController.saveDto.min}"/> <br/> <br/>
-                <p:commandButton value="Добавить" process="@form" update="modal" action="#{userController.save}"
-                                 styleClass="ui-button-success">
-                </p:commandButton>
+                <p:inputText id="min" placeholder="минута" value="#{testController.saveDto.min}" required="true"/> <br/>
+                <br/>
+                <p:commandButton value="Добавить" process="@form" update="modal" action="#{testController.save}"
+                                 styleClass="ui-button-success" actionListener="#{testController.reload}"
+                                 oncomplete="PF('dlg2').hide();"/>
             </p:dialog>
             <div style="padding: 50px">
                 <br/>
 
-                <p:dataTable var="row" value="#{testController.allUsers}" lazy="true"
-                             paginator="true"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} "
-                             currentPageReportTemplate="{startRecord}-{endRecord} из {totalRecords} "
-                             rowsPerPageTemplate="5,10,{ShowAll|'All'}" rows="10"
-                             paginatorPosition="bottom"
-                             sortable="true"
-                >
-                    <p:column headerText="Сотрудник" sortBy="#{row.userName}" style=" text-align: center;">
+                <p:dataTable var="row" value="#{testController.allAttendances}" lazy="true">
+                    <p:column headerText="Сотрудник" style=" text-align: center;">
                         <h:outputText value="#{row.userName}"/>
                     </p:column>
-                    <p:column sortBy="#{row.dateAttendance}" headerText="Дата" style=" text-align: center;">
+                    <p:column headerText="Дата" style=" text-align: center;">
                         <h:outputText value="#{row.dateAttendance}"/>
                     </p:column>
-                    <p:column sortBy="#{row.delayInMin}" headerText="Задержка в минутах" style=" text-align: center;">
+                    <p:column id="delayInMinValue" headerText="Задержка в минутах" style=" text-align: center;">
                         <h:outputText value="#{row.delayInMin}"/>
                     </p:column>
-                    <p:column sortBy="#{row.streak}" headerText="Стрик" style=" text-align: center;">
+                    <p:column headerText="Стрик" style=" text-align: center;">
                         <h:outputText value="#{row.streak}"/>
                     </p:column>
-                    <p:column sortBy="#{row.money}" headerText="Деньги" style=" text-align: center;">
+                    <p:column headerText="Деньги" style=" text-align: center;">
                         <h:outputText value="#{row.money}"/>
                     </p:column>
                     <p:column style="width: 90px;">
-                        <p:button icon="pi pi-trash" style="margin-right: 5px;" styleClass="ui-button-danger"/>
-                        <p:button icon="pi pi-pencil"/>
+                        <p:commandButton icon="pi pi-trash" style="margin-right: 5px;"
+                                         styleClass="ui-button-danger"
+                                         actionListener="#{testController.delete(row.attendanceId)}"
+                                         update="@form" process="@this"/>
+                        <p:commandButton icon="pi pi-pencil" oncomplete="PF('editDialog').show()"
+                                         actionListener="#{testController.changeIdSet(row.attendanceId)}"
+                                         update="@form" process="@this"/>
                     </p:column>
-
                 </p:dataTable>
             </div>
+            <p:dialog id="editDialog" header="Обновить минуту" widgetVar="editDialog" modal="true">
+                <h:form>
+                    <p:inputText var="min" value="#{testController.updateAttendanceFront.min}"/> <br/>
+                    <br/>
+                    <p:commandButton value="Добавить" process="@form" action="#{testController.update}"
+                                     styleClass="ui-button-success" actionListener="#{testController.reload}"
+                                     oncomplete="PF('editDialog').hide();"/>
+                </h:form>
+            </p:dialog>
         </h:form>
     </div>
 </h:body>

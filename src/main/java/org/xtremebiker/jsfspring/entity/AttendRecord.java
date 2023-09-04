@@ -3,6 +3,7 @@ package org.xtremebiker.jsfspring.entity;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.xtremebiker.jsfspring.entity.base.BaseEntity;
+import org.xtremebiker.jsfspring.enums.Status;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -33,4 +34,7 @@ public class AttendRecord extends BaseEntity {
     @JoinColumn(columnDefinition = "user_id",
             referencedColumnName = "id")
     UserEntity userEntity;
+
+    @Enumerated(EnumType.STRING)
+    Status status;
 }
