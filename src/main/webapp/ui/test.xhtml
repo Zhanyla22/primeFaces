@@ -8,13 +8,14 @@
     <title>Страница опозданий</title>
     <style>
         .container {
-            width: 100%; /* Take up the entire width of the page */
-            display: flex; /* Use flexbox to arrange sections horizontally */
+            width: 100%;
+            display: flex;
+            height: 10px;
         }
 
         .section {
-            flex: 1; /* Make each section take up an equal amount of space */
-            padding: 10px; /* Add padding for spacing */
+            flex: 1;
+            padding: 10px;
             text-align: center;
         }
     </style>
@@ -30,16 +31,21 @@
                     <br/><br/>
                 </div>
                 <div class="section">
-                    <p:linkButton value="удаленные" outcome="deleted" type="button"/>
+                    <p:button value="Пользователи" type="button" outcome="loan.xhtml"
+                              styleClass="ui-button-success"/>
                     <br/><br/>
                 </div>
                 <div class="section">
-                    <p:commandButton value="добавить" type="button" onclick="PF('dlg2').show();"
+                    <p:button value="Оплаты" type="button" outcome="payment.xhtml"
+                              styleClass="ui-button-plain"/>
+                    <br/><br/>
+                </div>
+                <div class="section">
+                    <p:commandButton value="Добавить опоздание" type="button" onclick="PF('dlg2').show();"
                                      styleClass="ui-button-success"/>
                     <br/><br/>
                 </div>
             </div>
-
             <p:dialog header="Добавить опоздание" id="modal" widgetVar="dlg2" modal="true" width="25%" height="200">
                 <p:selectOneMenu id="userId" value="#{testController.saveDto.userId}" style="width: 67.5% !important"
                                  required="true">
@@ -49,19 +55,44 @@
                                    itemValue="#{labeled.userId}"/>
                 </p:selectOneMenu>
 
+
                 <br/> <br/>
                 <p:datePicker id="date" placeholder="выберите дату" value="#{testController.saveDto.date}"
-                              pattern="yyyy-MM-dd" mask="true" required="true" showOn="button"/> <br/> <br/>
-                <p:inputText id="min" placeholder="минута" value="#{testController.saveDto.min}" required="true"/> <br/>
+                              pattern="yyyy-MM-dd" mask="true" required="true"  showOn="button"/> <br/> <br/>
+                <p:inputText id="min" placeholder="минута" value="#{testController.saveDto.min}" required="true" /> <br/>
                 <br/>
+                <p:messages id="messages" showDetail="true" closable="true">
+                    <p:autoUpdate/>
+                </p:messages>
                 <p:commandButton value="Добавить" process="@form" update="modal" action="#{testController.save}"
                                  styleClass="ui-button-success" actionListener="#{testController.reload}"
                                  oncomplete="PF('dlg2').hide();"/>
             </p:dialog>
             <div style="padding: 50px">
-                <br/>
-
-                <p:dataTable var="row" value="#{testController.allAttendances}" lazy="true">
+                <div class="container">
+                    <div class="section">
+                        <p:column headerText="Сумма" style=" text-align: center;">
+                            <h3>Общая сумма: <h:outputText value="#{testController.allSum}" style="color: darkred; font-size: 25px"/> сом</h3>
+                        </p:column>
+                    </div>
+                    <div class="section">
+                        <p:column headerText="Оплачено" style=" text-align: center;">
+                            <h3>Оплачено: <h:outputText value="#{testController.allBalanceSum}" style="color: forestgreen; font-size: 25px"/> сом</h3>
+                        </p:column>
+                    </div>
+                    <div class="section">
+                        <p:column headerText="Остаток" style=" text-align: center; ">
+                            <h3>Остаток: <h:outputText value="#{testController.leftSum}" style="color: royalblue; font-size: 25px"/> сом</h3>
+                        </p:column>
+                    </div>
+                </div>
+                <br/> <br/> <br/> <br/>
+                <p:dataTable var="row" value="#{testController.allAttendances}" lazy="true" rows="10"
+                             paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords}"
+                             rowsPerPageTemplate="5,10,{ShowAll|'All'}"
+                >
                     <p:column headerText="Сотрудник" style=" text-align: center;">
                         <h:outputText value="#{row.userName}"/>
                     </p:column>
@@ -74,7 +105,7 @@
                     <p:column headerText="Стрик" style=" text-align: center;">
                         <h:outputText value="#{row.streak}"/>
                     </p:column>
-                    <p:column headerText="Деньги" style=" text-align: center;">
+                    <p:column headerText="Деньги в сомах" style=" text-align: center;">
                         <h:outputText value="#{row.money}"/>
                     </p:column>
                     <p:column style="width: 90px;">
@@ -83,20 +114,20 @@
                                          actionListener="#{testController.delete(row.attendanceId)}"
                                          update="@form" process="@this"/>
                         <p:commandButton icon="pi pi-pencil" oncomplete="PF('editDialog').show()"
-                                         actionListener="#{testController.changeIdSet(row.attendanceId)}"
+                                         id="updateId"
+                                         action="#{testController.changeIdSet(row.attendanceId)}"
                                          update="@form" process="@this"/>
                     </p:column>
                 </p:dataTable>
-            </div>
-            <p:dialog id="editDialog" header="Обновить минуту" widgetVar="editDialog" modal="true">
-                <h:form>
-                    <p:inputText var="min" value="#{testController.updateAttendanceFront.min}"/> <br/>
+                <p:dialog id="editDialog1" header="Обновить минуту" widgetVar="editDialog" modal="true">
+                    <p:inputText var="min" value="#{testController.min}"/> <br/>
                     <br/>
-                    <p:commandButton value="Добавить" process="@form" action="#{testController.update}"
+                    <p:commandButton value="Обновить" process="@form" update="editDialog1"
+                                     action="#{testController.update}"
                                      styleClass="ui-button-success" actionListener="#{testController.reload}"
                                      oncomplete="PF('editDialog').hide();"/>
-                </h:form>
-            </p:dialog>
+                </p:dialog>
+            </div>
         </h:form>
     </div>
 </h:body>

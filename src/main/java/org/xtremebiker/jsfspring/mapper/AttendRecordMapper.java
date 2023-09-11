@@ -1,16 +1,21 @@
 package org.xtremebiker.jsfspring.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.xtremebiker.jsfspring.dto.response.AddAttendResponse;
 import org.xtremebiker.jsfspring.dto.response.AllAttendance;
 import org.xtremebiker.jsfspring.dto.response.DelayUserDto;
+import org.xtremebiker.jsfspring.dto.response.LoanHistory;
 import org.xtremebiker.jsfspring.entity.AttendRecord;
+import org.xtremebiker.jsfspring.service.JoinDtoService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AttendRecordMapper {
+
 
     public static DelayUserDto entityToDelayUserDto(AttendRecord attendRecord) {
         return DelayUserDto.builder()
@@ -23,6 +28,20 @@ public class AttendRecordMapper {
 
     public static List<DelayUserDto> entityListToDelayUserDtoList(List<AttendRecord> attendRecords) {
         return attendRecords.stream().map(AttendRecordMapper::entityToDelayUserDto).collect(Collectors.toList());
+    }
+
+    public static LoanHistory entityToLoanDto(JoinDtoService attendRecord) {
+        return LoanHistory.builder()
+                .userId(attendRecord.getUserId())
+                .userName(attendRecord.getFirstName())
+                .loanSum(attendRecord.getMoney())
+                .balanceSum(attendRecord.getBalance())
+                .left(attendRecord.getMoney() - attendRecord.getBalance())
+                .build();
+    }
+
+    public static List<LoanHistory> entityToListLoan(List<JoinDtoService> joinDtos) {
+        return joinDtos.stream().map(AttendRecordMapper::entityToLoanDto).collect(Collectors.toList());
     }
 
     public static AddAttendResponse entityToAttendResponse(AttendRecord attendRecord) {

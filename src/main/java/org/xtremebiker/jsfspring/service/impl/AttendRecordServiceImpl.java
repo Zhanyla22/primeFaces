@@ -8,12 +8,14 @@ import org.xtremebiker.jsfspring.dto.request.UpdateAttendance;
 import org.xtremebiker.jsfspring.dto.response.AddAttendResponse;
 import org.xtremebiker.jsfspring.dto.response.AllAttendance;
 import org.xtremebiker.jsfspring.dto.response.DelayUserDto;
+import org.xtremebiker.jsfspring.dto.response.LoanHistory;
 import org.xtremebiker.jsfspring.entity.AttendRecord;
 import org.xtremebiker.jsfspring.entity.UserEntity;
 import org.xtremebiker.jsfspring.enums.Status;
 import org.xtremebiker.jsfspring.exceptions.BaseException;
 import org.xtremebiker.jsfspring.mapper.AttendRecordMapper;
 import org.xtremebiker.jsfspring.repo.AttendanceRepo;
+import org.xtremebiker.jsfspring.repo.PaymentRepo;
 import org.xtremebiker.jsfspring.repo.UserRepo;
 import org.xtremebiker.jsfspring.service.AttendRecordService;
 
@@ -27,9 +29,13 @@ public class AttendRecordServiceImpl implements AttendRecordService {
 
     private final UserRepo userRepo;
 
+    private final PaymentRepo paymentRepo;
+
+    private final AttendRecordMapper attendRecordMapper;
+
     @Override
     public AddAttendResponse addDelayMin(AddDelayDto addDelayDto) {
-        if (!attendanceRepo.existsByUserEntityIdAndAttendDate(addDelayDto.getUserId(), addDelayDto.getDate()) && addDelayDto.getDelayInMin() != 0) {
+        if (addDelayDto.getDelayInMin() != 0) {
             AttendRecord attendRecord1 = new AttendRecord();
             attendRecord1.setUserEntity(userRepo.findById(addDelayDto.getUserId()).orElseThrow(() ->
                     new BaseException("такого юзер с айди =" + addDelayDto.getUserId() + " нет", HttpStatus.NOT_FOUND)));
@@ -76,26 +82,28 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public String deleteById(Long id) {
         AttendRecord attendRecord = attendanceRepo.findById(id).get();
         attendRecord.setStatus(Status.DELETED);
         attendanceRepo.save(attendRecord);
+        return null;
     }
 
     @Override
     public UpdateAttendance updateAttendanceById(UpdateAttendance updateAttendance) {
         AttendRecord attendRecord = attendanceRepo.findById(updateAttendance.getAttendanceId()).orElseThrow(
-                () -> new BaseException("запись с id = " + updateAttendance.getAttendanceId() +" не найден", HttpStatus.NOT_FOUND)
+                () -> new BaseException("запись с id = " + updateAttendance.getAttendanceId() + " не найден", HttpStatus.NOT_FOUND)
         );
+        attendRecord.setMoney((attendRecord.getMoney() - ((long) attendRecord.getStreak() * attendRecord.getDelayInMin())
+                + (long) attendRecord.getStreak() * updateAttendance.getMin()));
         attendRecord.setDelayInMin(updateAttendance.getMin());
-        attendRecord.setMoney((long) (updateAttendance.getMin() * attendRecord.getStreak()));
         attendanceRepo.save(attendRecord);
         return updateAttendance;
     }
 
     @Override
     public List<AllAttendance> getAllAttendanceByUserId(Long userId) {
-        return AttendRecordMapper.entityListToDtoList(attendanceRepo.findAttendRecordsByUserEntityIdAndStatus(userId, Status.ACTIVE));
+        return AttendRecordMapper.entityListToDtoList(attendanceRepo.findAttendRecordsByUserEntityIdAndStatusOrderByAttendDateDesc(userId));
     }
 
     @Override
@@ -106,9 +114,9 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     @Override
     public Long getLoanByUserId(Long userId) {
         UserEntity userEntity = userRepo.findById(userId).orElseThrow(
-                ()->new BaseException("не найден", HttpStatus.NOT_FOUND)
+                () -> new BaseException("не найден", HttpStatus.NOT_FOUND)
         );
-        long loan = getAllSumByUserId(userId) - userEntity.getMoneyOnBalance();
+        long loan = getAllSumByUserId(userId) - getBalanceByUserId(userId);
         return loan;
     }
 
@@ -124,6 +132,21 @@ public class AttendRecordServiceImpl implements AttendRecordService {
 
     @Override
     public Long allBalanceSum() {
-        return userRepo.getAllBalance();
+        return paymentRepo.getAllBalance();
+    }
+
+    @Override
+    public Long getBalanceByUserId(Long userId) {
+        return paymentRepo.getBalanceByUserId(userId);
+    }
+
+    @Override
+    public List<LoanHistory> getAllLoanHistory() {
+        return AttendRecordMapper.entityToListLoan(attendanceRepo.getJoinedDatas());
+    }
+
+    @Override
+    public Long getSumRestLeft() {
+        return getAllSum()-allBalanceSum();
     }
 }

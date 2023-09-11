@@ -1,10 +1,21 @@
 package org.xtremebiker.jsfspring.enums;
 
 public enum Position {
-    BACK,
-    FRONT,
-    PM,
-    DESIGNER,
-    QA,
-    DATA_ANALITIK
+    BACK("бэкенд"),
+    FRONT("фронт"),
+    PM("ПМ"),
+    DESIGNER("Дизайнер"),
+    QA("QA"),
+    DATA_ANALITIK("Дата аналитик"),
+    INTERN("Стажер");
+
+    private String name;
+
+    Position(String name){
+        this.name = name;
+    }
+
+    private String getName(){
+        return name;
+    }
 }

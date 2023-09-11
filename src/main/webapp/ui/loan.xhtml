@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <title>Страница задолженностей</title>
+    <style>
+        .container {
+            width: 100%;
+            display: flex;
+            height: 10px;
+        }
+
+        .section {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</h:head>
+<h:body>
+    <h:form>
+        <br/>
+        <div class="container">
+            <div class="section">
+                <p:button value="Назад" ajax="false" outcome="test"
+                          styleClass="ui-button-danger"/>
+                <br/><br/>
+            </div>
+            <div class="section">
+                <p:commandButton value="Добавить сотрудника" type="button" onclick="PF('dlg2').show();"
+                                 styleClass="ui-button-success"/>
+                <br/><br/>
+            </div>
+        </div>
+
+        <p:dialog header="Добавить сотрудника" id="modal" widgetVar="dlg2" modal="true" width="25%" height="310">
+            <p:inputText id="username" placeholder="логин" value="#{userController.addUserDto.userName}" required="true"/> <br/>
+            <br/>
+            <p:inputText id="firstName" placeholder="имя" value="#{userController.addUserDto.firstName}" required="true"/> <br/>
+            <br/>
+            <p:inputText id="lastName" placeholder="фамилия" value="#{userController.addUserDto.lastName}" required="true"/> <br/>
+            <br/> <br/>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate/>
+            </p:messages>
+            <p:commandButton value="Добавить" process="@form" update="modal" action="#{userController.addNewUser}"
+                             styleClass="ui-button-plain" actionListener="#{userController.reload}"
+                             oncomplete="PF('dlg2').hide();"/>
+        </p:dialog>
+
+        <div style="padding: 50px">
+            <p:dataTable var="row1" lazy="true" value="#{testController.allLoanHistory}"
+                         style="display: flex; justify-content: center;">
+                <p:column headerText="Пользователь" style=" text-align: center;">
+                    <h:outputText value="#{row1.userName}"/>
+                </p:column>
+                <p:column headerText="Общий долг" style=" text-align: center;">
+                    <h:outputText value="#{row1.loanSum}"/>
+                </p:column>
+                <p:column headerText="Оплачено" style=" text-align: center;">
+                    <h:outputText value="#{row1.balanceSum}"/>
+                </p:column>
+                <p:column headerText="Остаток" style=" text-align: center;">
+                    <h:outputText value="#{row1.left}"/>
+                </p:column>
+            </p:dataTable>
+        </div>
+    </h:form>
+</h:body>
+</html>

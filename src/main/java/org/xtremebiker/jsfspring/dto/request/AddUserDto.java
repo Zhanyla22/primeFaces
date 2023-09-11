@@ -3,7 +3,7 @@ package org.xtremebiker.jsfspring.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import javax.validation.constraints.Email;
 
 @Getter
 @Setter
@@ -11,11 +11,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddDelayDto {
+public class AddUserDto {
 
-    Long userId;
+    @Email
+    String userName;
 
-    LocalDate date;
+    String firstName;
 
-    Integer delayInMin;
+    String lastName;
+
 }

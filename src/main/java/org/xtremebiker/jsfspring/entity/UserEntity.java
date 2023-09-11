@@ -41,9 +41,6 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
 
-    @Column(name = "money_on_balance")
-    Long moneyOnBalance;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(role.name()));

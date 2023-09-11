@@ -1,9 +1,7 @@
-package org.xtremebiker.jsfspring.dto.request;
+package org.xtremebiker.jsfspring.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -11,11 +9,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddDelayDto {
+public class LoanHistory {
 
     Long userId;
 
-    LocalDate date;
+    String userName;
 
-    Integer delayInMin;
+    Long loanSum;
+
+    Long balanceSum;
+
+    Long left;
 }

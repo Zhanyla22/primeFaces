@@ -4,25 +4,68 @@
       xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Страница опозданий</title>
+    <style>
+        .container {
+            width: 100%;
+            display: flex;
+            height: 10px;
+        }
+
+        .section {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
 </h:head>
 <h:body>
     <h:form>
         <br/>
-        <p:dataTable value="#{testController.allAttendanceByUser}" var="row1" lazy="true"
+        <div class="container">
+            <div class="section">
+                <p:commandButton value="Выход" ajax="false" onclick="window.location.href='/logout'"
+                                 styleClass="ui-button-danger"/>
+                <br/><br/>
+            </div>
+            <div class="section">
+                <p:button value="Мои оплаты" ajax="false" outcome="paymentUser.xhtml"
+                          styleClass="ui-button-plain"/>
+                <br/><br/>
+            </div>
+        </div>
+        <div class="container">
+            <div class="section">
+                <h3 style="font-style: italic; color: dimgrey">Здраствуйте,
+                    <h:outputText value="#{testController.currentName}"/>
+                </h3>
+            </div>
+        </div>
+        <br/> <br/>
+        <h3 style="text-align: center; color: crimson">Опоздания</h3>
+        <p:dataTable var="row1" lazy="true" value="#{testController.allAttendanceByUserId}"
                      style="display: flex; justify-content: center;">
             <p:column headerText="Дата" style=" text-align: center;">
-                <h:outputText value="#{row1.delayDate}"/>
+                <h:outputText value="#{row1.dateAttendance}"/>
             </p:column>
             <p:column headerText="Задержка в минутах" style=" text-align: center;">
-                <h:outputText value="#{row1.delayMin}"/>
+                <h:outputText value="#{row1.delayInMin}"/>
             </p:column>
             <p:column headerText="Стрик" style=" text-align: center;">
                 <h:outputText value="#{row1.streak}"/>
             </p:column>
-            <p:column headerText="Деньги" style=" text-align: center;">
+            <p:column headerText="Деньги в сомах" style=" text-align: center;">
                 <h:outputText value="#{row1.money}"/>
             </p:column>
         </p:dataTable>
+        <div class="container">
+            <div class="section">
+                <p:column headerText="Сумма" style=" text-align: center;">
+                    <h3 style="padding-left: 70%">Задолженность: <h:outputText style="color: darkred; font-size: 30px"
+                                                                             value="#{testController.currentSumOfLoan}"/> сом
+                    </h3>
+                </p:column>
+            </div>
+        </div>
     </h:form>
 </h:body>
 </html>

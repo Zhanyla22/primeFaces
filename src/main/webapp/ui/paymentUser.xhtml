@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Страница опозданий</title>
+    <style>
+        .container {
+            width: 100%;
+            display: flex;
+            height: 8px;
+        }
+
+        .section {
+            flex: 1;
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</h:head>
+<h:body>
+    <h:form>
+        <br/>
+        <div class="container">
+            <div class="section">
+                <p:button value="Назад" ajax="false" outcome="user.xhtml"
+                                 styleClass="ui-button-danger"/>
+                <br/><br/>
+            </div>
+        </div>
+        <div style="padding: 40px">
+            <h3 style="text-align: center; color:darkgreen;">Оплаты</h3>
+            <p:dataTable var="row" lazy="true" value="#{paymentController.allPaymentById}"
+                         style="display: flex; justify-content: center;">
+                <p:column headerText="Дата" style=" text-align: center;">
+                    <h:outputText value="#{row.createdDate}"/>
+                </p:column>
+                <p:column headerText="Сумма в сомах" style=" text-align: center;">
+                    <h:outputText value="#{row.sum}"/>
+                </p:column>
+            </p:dataTable>
+            <div class="container">
+                <div class="section">
+                    <p:column headerText="Оплачено" style=" text-align: center;">
+                        <h3 style="padding-left: 79%">Оплачено: <h:outputText style="color: darkgreen; font-size: 30px"
+                                                                              value="#{testController.currentBalanceOfUser}"/> сом
+                        </h3>
+                    </p:column>
+                </div>
+            </div>
+            <br/> <br/>
+            <div class="container">
+                <div class="section">
+                    <p:column headerText="Остаток" style=" text-align: center;">
+                        <h3 style="padding-left: 80%">Остаток: <h:outputText style="color: royalblue; font-size: 30px"
+                                                                             value="#{testController.currentUsersLeft}"/> сом
+                        </h3>
+                    </p:column>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</h:body>
+</html>
