@@ -3,6 +3,7 @@ package org.xtremebiker.jsfspring.service;
 import org.xtremebiker.jsfspring.dto.request.AddNewPayment;
 import org.xtremebiker.jsfspring.dto.response.PaymentDto;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface PaymentServiceService {
@@ -11,5 +12,5 @@ public interface PaymentServiceService {
 
     String addNewPayment(AddNewPayment addNewPayment);
 
-    List<PaymentDto> getAllPaymentByUserId(Long userId);
+    List<PaymentDto> getAllPaymentByCurrentUser(HttpServletRequest request);
 }

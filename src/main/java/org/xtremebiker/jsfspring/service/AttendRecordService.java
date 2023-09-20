@@ -9,6 +9,7 @@ import org.xtremebiker.jsfspring.dto.response.LoanHistory;
 import org.xtremebiker.jsfspring.enums.Status;
 
 import java.util.List;
+import java.util.UUID;
 
 
 public interface AttendRecordService {
@@ -19,13 +20,13 @@ public interface AttendRecordService {
 
     List<AllAttendance> getAllAttendance(Status status);
 
-    String deleteById(Long id);
+    String deleteById(UUID uuid);
 
     UpdateAttendance updateAttendanceById(UpdateAttendance updateAttendance);
 
-    List<AllAttendance> getAllAttendanceByUserId(Long userId);
+    List<AllAttendance> getAllAttendanceByUser();
 
-    Long getAllSumByUserId(Long userId);
+    Long getAllSumByUser();
 
     Long getLoanByUserId(Long userId);
 
@@ -35,9 +36,11 @@ public interface AttendRecordService {
 
     Long allBalanceSum();
 
-    Long getBalanceByUserId(Long userId);
+    Long getBalanceByUser();
 
     List<LoanHistory> getAllLoanHistory();
 
     Long getSumRestLeft();
+
+    Long getCurrentUsersLeft();
 }

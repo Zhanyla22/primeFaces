@@ -1,6 +1,8 @@
 package org.xtremebiker.jsfspring.service;
 
 import org.xtremebiker.jsfspring.dto.request.AddUserDto;
+import org.xtremebiker.jsfspring.dto.request.UpdatePassRequest;
+import org.xtremebiker.jsfspring.dto.response.AuthenticationResponse;
 import org.xtremebiker.jsfspring.dto.response.UserDto;
 import org.xtremebiker.jsfspring.entity.UserEntity;
 
@@ -12,6 +14,11 @@ public interface UserService {
 
     List<UserDto> getAllUsers();
 
-    void addNewUser(AddUserDto addUserDto);
+    String addNewUser(AddUserDto addUserDto);
 
+    AuthenticationResponse auth(String userName, String pass);
+
+    AuthenticationResponse refreshToken();
+
+    String updatePass(UpdatePassRequest updatePassRequest);
 }

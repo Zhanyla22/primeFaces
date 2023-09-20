@@ -1,8 +1,8 @@
 package org.xtremebiker.jsfspring.mapper;
 
+import org.xtremebiker.jsfspring.entity.UserEntity;
 import org.springframework.stereotype.Service;
 import org.xtremebiker.jsfspring.dto.response.UserDto;
-import org.xtremebiker.jsfspring.entity.UserEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;

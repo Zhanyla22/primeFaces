@@ -7,9 +7,6 @@ import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 
-/**
- * The JSF view scope ported to spring *
- */
 public class ViewScope implements Scope {
 
 	@Override

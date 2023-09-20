@@ -10,6 +10,7 @@ import org.xtremebiker.jsfspring.service.JoinDtoService;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface AttendanceRepo extends JpaRepository<AttendRecord, Long> {
@@ -18,7 +19,6 @@ public interface AttendanceRepo extends JpaRepository<AttendRecord, Long> {
 
     @Query(value = "SELECT * FROM attendance a WHERE a.user_entity_id = ?1 AND status = 'ACTIVE' AND streak!=0 ORDER BY a.created_date desc LIMIT 1 ", nativeQuery = true)
     Optional<AttendRecord> findLast(Long id);
-
 
     List<AttendRecord> getAttendRecordsByUserEntityUserNameOrderByAttendDateDesc(String userName);
 
@@ -53,5 +53,7 @@ public interface AttendanceRepo extends JpaRepository<AttendRecord, Long> {
             "WHERE a.status = 'ACTIVE'\n" +
             "GROUP BY u.first_name, a.user_entity_id, u.first_name, p.user_entity_id, p.sum\n", nativeQuery = true)
     List<JoinDtoService> getJoinedDatas();
+
+    Optional<AttendRecord> findByUuid(UUID uuid);
 }
 

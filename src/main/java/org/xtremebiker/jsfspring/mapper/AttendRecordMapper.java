@@ -1,12 +1,12 @@
 package org.xtremebiker.jsfspring.mapper;
 
 import lombok.RequiredArgsConstructor;
+import org.xtremebiker.jsfspring.entity.AttendRecord;
 import org.springframework.stereotype.Service;
 import org.xtremebiker.jsfspring.dto.response.AddAttendResponse;
 import org.xtremebiker.jsfspring.dto.response.AllAttendance;
 import org.xtremebiker.jsfspring.dto.response.DelayUserDto;
 import org.xtremebiker.jsfspring.dto.response.LoanHistory;
-import org.xtremebiker.jsfspring.entity.AttendRecord;
 import org.xtremebiker.jsfspring.service.JoinDtoService;
 
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AttendRecordMapper {
-
 
     public static DelayUserDto entityToDelayUserDto(AttendRecord attendRecord) {
         return DelayUserDto.builder()
@@ -51,6 +50,7 @@ public class AttendRecordMapper {
                 .attendDate(attendRecord.getAttendDate())
                 .money(attendRecord.getMoney())
                 .streak(attendRecord.getStreak())
+                .uuid(attendRecord.getUuid().toString())
                 .build();
     }
 
@@ -68,5 +68,4 @@ public class AttendRecordMapper {
     public static List<AllAttendance> entityListToDtoList(List<AttendRecord> attendRecords) {
         return attendRecords.stream().map(AttendRecordMapper::entityToDto).collect(Collectors.toList());
     }
-
 }

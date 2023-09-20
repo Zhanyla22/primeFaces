@@ -22,4 +22,6 @@ public class AddAttendResponse {
     Integer streak;
 
     Long money;
+
+    String uuid;
 }

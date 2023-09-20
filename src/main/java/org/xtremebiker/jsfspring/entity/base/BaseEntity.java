@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -19,6 +20,9 @@ public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @Column(name = "uuid")
+    UUID uuid;
 
     @Column(name = "created_date")
     LocalDateTime createdDate;
@@ -35,5 +39,4 @@ public class BaseEntity {
     public void preUpdate() {
         this.updatedDate = LocalDateTime.now();
     }
-
 }

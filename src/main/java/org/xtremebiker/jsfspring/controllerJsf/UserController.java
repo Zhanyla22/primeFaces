@@ -1,18 +1,20 @@
 package org.xtremebiker.jsfspring.controllerJsf;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.xtremebiker.jsfspring.dto.request.AddUserDto;
 import org.xtremebiker.jsfspring.dto.response.UserDto;
 import org.xtremebiker.jsfspring.enums.Position;
 import org.xtremebiker.jsfspring.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 
@@ -26,12 +28,13 @@ public class UserController {
 
     @PostConstruct
     public void init() {
-       addUserDto = new AddUserDto();
+        addUserDto = new AddUserDto();
     }
 
-    public Position getPosition(){
+    public Position getPosition() {
         return position;
     }
+
     public AddUserDto getAddUserDto() {
         return addUserDto;
     }
@@ -48,7 +51,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    public void addNewUser(){
+    public void addNewUser() throws NoSuchAlgorithmException, InvalidKeySpecException {
         userService.addNewUser(addUserDto);
     }
 

@@ -1,4 +1,4 @@
-package org.xtremebiker.jsfspring.dto.response;
+package org.xtremebiker.jsfspring.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -9,9 +9,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserDto {
+public class AuthDto {
 
-    Long userId;
+    String userName;
 
-    String name;
+    String password;
 }

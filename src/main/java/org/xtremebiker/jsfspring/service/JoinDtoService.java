@@ -1,5 +1,6 @@
 package org.xtremebiker.jsfspring.service;
 
+
 public interface JoinDtoService {
 
     Long getMoney();

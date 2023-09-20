@@ -1,13 +1,13 @@
 package org.xtremebiker.jsfspring.controllerJsf;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.xtremebiker.jsfspring.dto.request.AddNewPayment;
-import org.xtremebiker.jsfspring.dto.response.PaymentDto;
 import org.xtremebiker.jsfspring.entity.UserEntity;
 import org.xtremebiker.jsfspring.service.PaymentServiceService;
 import org.xtremebiker.jsfspring.service.impl.UserDetailServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+import org.xtremebiker.jsfspring.dto.response.PaymentDto;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -48,10 +48,10 @@ public class PaymentController {
         return paymentServiceService.getAllPayment();
     }
 
-    public List<PaymentDto> getAllPaymentById() {
-        UserEntity userEntity = userDetailsService.getCurrentUser();
-        return paymentServiceService.getAllPaymentByUserId(userEntity.getId());
-    }
+//    public List<PaymentDto> getAllPaymentById() {
+//        UserEntity userEntity = userDetailsService.getCurrentUser();
+//        return paymentServiceService.getAllPaymentByCurrentUser();
+//    }
 
     public void add() {
         paymentServiceService.addNewPayment(addNewPayment);

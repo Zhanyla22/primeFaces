@@ -2,14 +2,15 @@ package org.xtremebiker.jsfspring.entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.xtremebiker.jsfspring.entity.base.BaseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.xtremebiker.jsfspring.entity.base.BaseEntity;
 import org.xtremebiker.jsfspring.enums.Position;
 import org.xtremebiker.jsfspring.enums.Role;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -38,6 +39,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     Position position;
 
+    @NotNull //todo: dto toje
     @Enumerated(EnumType.STRING)
     Role role;
 

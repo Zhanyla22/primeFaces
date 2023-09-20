@@ -24,5 +24,4 @@ public class AllAttendance {
     Integer streak;
 
     Long money;
-
 }

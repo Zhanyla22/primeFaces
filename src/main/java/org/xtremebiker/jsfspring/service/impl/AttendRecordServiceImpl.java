@@ -1,8 +1,6 @@
 package org.xtremebiker.jsfspring.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.xtremebiker.jsfspring.dto.request.AddDelayDto;
 import org.xtremebiker.jsfspring.dto.request.UpdateAttendance;
 import org.xtremebiker.jsfspring.dto.response.AddAttendResponse;
@@ -17,13 +15,16 @@ import org.xtremebiker.jsfspring.mapper.AttendRecordMapper;
 import org.xtremebiker.jsfspring.repo.AttendanceRepo;
 import org.xtremebiker.jsfspring.repo.PaymentRepo;
 import org.xtremebiker.jsfspring.repo.UserRepo;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.xtremebiker.jsfspring.service.AttendRecordService;
 
 import java.util.List;
+import java.util.UUID;
 
-@Service
 @RequiredArgsConstructor
-public class AttendRecordServiceImpl implements AttendRecordService {
+@Service
+public class  AttendRecordServiceImpl implements AttendRecordService {
 
     private final AttendanceRepo attendanceRepo;
 
@@ -31,7 +32,7 @@ public class AttendRecordServiceImpl implements AttendRecordService {
 
     private final PaymentRepo paymentRepo;
 
-    private final AttendRecordMapper attendRecordMapper;
+    private final UserDetailServiceImpl userDetailService;
 
     @Override
     public AddAttendResponse addDelayMin(AddDelayDto addDelayDto) {
@@ -41,6 +42,7 @@ public class AttendRecordServiceImpl implements AttendRecordService {
                     new BaseException("такого юзер с айди =" + addDelayDto.getUserId() + " нет", HttpStatus.NOT_FOUND)));
             attendRecord1.setDelayInMin(addDelayDto.getDelayInMin());
             attendRecord1.setAttendDate(addDelayDto.getDate());
+            attendRecord1.setUuid(UUID.randomUUID());
 
             AttendRecord attendRecord = attendanceRepo.findLast(addDelayDto.getUserId()).orElse(null);
             //Выбранная дата суббота или воскресенье
@@ -82,8 +84,8 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     }
 
     @Override
-    public String deleteById(Long id) {
-        AttendRecord attendRecord = attendanceRepo.findById(id).get();
+    public String deleteById(UUID uuid) {
+        AttendRecord attendRecord = attendanceRepo.findByUuid(uuid).orElseThrow(()->new BaseException("не найден", HttpStatus.NOT_FOUND));
         attendRecord.setStatus(Status.DELETED);
         attendanceRepo.save(attendRecord);
         return null;
@@ -102,13 +104,13 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     }
 
     @Override
-    public List<AllAttendance> getAllAttendanceByUserId(Long userId) {
-        return AttendRecordMapper.entityListToDtoList(attendanceRepo.findAttendRecordsByUserEntityIdAndStatusOrderByAttendDateDesc(userId));
+    public List<AllAttendance> getAllAttendanceByUser() {
+        return AttendRecordMapper.entityListToDtoList(attendanceRepo.findAttendRecordsByUserEntityIdAndStatusOrderByAttendDateDesc(userDetailService.getCurrentUser().getId()));
     }
 
     @Override
-    public Long getAllSumByUserId(Long userId) {
-        return attendanceRepo.sumOfMoneyByUserIdAndStatus(userId);
+    public Long getAllSumByUser() {
+        return attendanceRepo.sumOfMoneyByUserIdAndStatus(userDetailService.getCurrentUser().getId());
     }
 
     @Override
@@ -116,7 +118,7 @@ public class AttendRecordServiceImpl implements AttendRecordService {
         UserEntity userEntity = userRepo.findById(userId).orElseThrow(
                 () -> new BaseException("не найден", HttpStatus.NOT_FOUND)
         );
-        long loan = getAllSumByUserId(userId) - getBalanceByUserId(userId);
+        long loan = getAllSumByUser() - getBalanceByUser();
         return loan;
     }
 
@@ -136,8 +138,8 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     }
 
     @Override
-    public Long getBalanceByUserId(Long userId) {
-        return paymentRepo.getBalanceByUserId(userId);
+    public Long getBalanceByUser() {
+        return paymentRepo.getBalanceByUserId(userDetailService.getCurrentUser().getId());
     }
 
     @Override
@@ -148,5 +150,10 @@ public class AttendRecordServiceImpl implements AttendRecordService {
     @Override
     public Long getSumRestLeft() {
         return getAllSum()-allBalanceSum();
+    }
+
+    @Override
+    public Long getCurrentUsersLeft() {
+        return getAllSumByUser()-getBalanceByUser();
     }
 }

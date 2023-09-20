@@ -5,7 +5,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 
-
 @Getter
 @Setter
 @Builder
@@ -15,7 +14,8 @@ import java.time.LocalDate;
 public class SaveDto {
 
     private Long userId;
-    private Integer min;
-    private LocalDate date;
 
+    private Integer min;
+
+    private LocalDate date;
 }

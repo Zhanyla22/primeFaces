@@ -1,6 +1,5 @@
 package org.xtremebiker.jsfspring.dto.request;
 
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

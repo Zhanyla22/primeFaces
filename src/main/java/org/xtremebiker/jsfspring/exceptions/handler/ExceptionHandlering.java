@@ -1,6 +1,7 @@
 package org.xtremebiker.jsfspring.exceptions.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.xtremebiker.jsfspring.enums.ResultCode;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.xtremebiker.jsfspring.dto.response.ResponseDto;
-import org.xtremebiker.jsfspring.enums.ResultCode;
 import org.xtremebiker.jsfspring.exceptions.BaseException;
 
 @RestControllerAdvice

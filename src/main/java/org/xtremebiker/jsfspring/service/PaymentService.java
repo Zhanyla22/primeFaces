@@ -11,5 +11,4 @@ public interface PaymentService {
     LocalDate getCreatedDate();
 
     Long getSum();
-
 }

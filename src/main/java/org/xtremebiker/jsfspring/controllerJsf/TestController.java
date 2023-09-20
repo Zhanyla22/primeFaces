@@ -1,8 +1,5 @@
 package org.xtremebiker.jsfspring.controllerJsf;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 import org.xtremebiker.jsfspring.dto.request.AddDelayDto;
 import org.xtremebiker.jsfspring.dto.request.UpdateAttendance;
 import org.xtremebiker.jsfspring.dto.response.AllAttendance;
@@ -12,6 +9,9 @@ import org.xtremebiker.jsfspring.entity.UserEntity;
 import org.xtremebiker.jsfspring.enums.Status;
 import org.xtremebiker.jsfspring.service.AttendRecordService;
 import org.xtremebiker.jsfspring.service.impl.UserDetailServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -20,16 +20,17 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 @Scope("view")
 public class TestController {
 
     @Autowired
-    private  AttendRecordService attendRecordService;
+    private AttendRecordService attendRecordService;
 
     @Autowired
-    private  UserDetailServiceImpl userDetailService;
+    private UserDetailServiceImpl userDetailService;
 
 
     private SaveDto saveDto;
@@ -82,7 +83,7 @@ public class TestController {
 
     public List<AllAttendance> getAllAttendanceByUserId() {
         UserEntity userEntity = userDetailService.getCurrentUser();
-        return attendRecordService.getAllAttendanceByUserId(userEntity.getId());
+        return attendRecordService.getAllAttendanceByUser();
     }
 
     public List<AllAttendance> getAllAttendances() {
@@ -100,24 +101,23 @@ public class TestController {
 
     public Long getCurrentSumOfLoan() {
         Long userId = userDetailService.getCurrentUser().getId();
-        return attendRecordService.getAllSumByUserId(userId);
+        return attendRecordService.getAllSumByUser();
     }
 
     public Long getCurrentBalanceOfUser() {
         Long userId = userDetailService.getCurrentUser().getId();
-        return attendRecordService.getBalanceByUserId(userId);
+        return attendRecordService.getBalanceByUser();
     }
 
     public Long getCurrentUsersLeft() {
-        if (getCurrentSumOfLoan() !=null) {
+        if (getCurrentSumOfLoan() != null) {
             return getCurrentSumOfLoan() - getCurrentBalanceOfUser();
-        }
-        else return 0L;
+        } else return 0L;
     }
 
-    public void delete(Long id) {
+    public void delete(UUID uuid) {
 
-        attendRecordService.deleteById(id);
+        attendRecordService.deleteById(uuid);
     }
 
     public void save() {

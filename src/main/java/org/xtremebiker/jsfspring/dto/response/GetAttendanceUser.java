@@ -20,5 +20,4 @@ public class GetAttendanceUser {
     Integer streak;
 
     Long money;
-
 }

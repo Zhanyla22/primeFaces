@@ -19,5 +19,4 @@ public class AddUserDto {
     String firstName;
 
     String lastName;
-
 }
