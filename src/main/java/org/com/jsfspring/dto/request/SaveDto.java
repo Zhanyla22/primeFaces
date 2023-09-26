@@ -3,15 +3,22 @@ package org.com.jsfspring.dto.request;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.time.LocalDate;
+
+/**
+ * при создании записи опоздания чз JSF
+ */
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdateAttendance {
+public class SaveDto {
 
-    Long attendanceId;
+    private Long userId;
 
-    Integer min;
+    private Integer min;
+
+    private LocalDate date;
 }

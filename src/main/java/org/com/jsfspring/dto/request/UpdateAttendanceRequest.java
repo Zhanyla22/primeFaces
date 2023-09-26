@@ -7,7 +7,7 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotNull;
 
 /**
- * dto для обновления пароля-для пользователя
+ * dto для обновления записи  опоздания
  */
 @Getter
 @Setter
@@ -15,13 +15,12 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdatePassRequest {
+public class UpdateAttendanceRequest {
 
     @NotNull
-    @JsonProperty("old_password")
-    String oldPassword;
+    @JsonProperty("attendance_id")
+    Long attendanceId;
 
     @NotNull
-    @JsonProperty("new_password")
-    String newPassword;
+    Integer min;
 }

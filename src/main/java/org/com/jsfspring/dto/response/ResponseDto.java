@@ -4,6 +4,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.com.jsfspring.enums.ResultCode;
 
+/**
+ * Ответ на уровне контроллера - структура каждого ответа
+ */
 @Getter
 @Setter
 @Builder

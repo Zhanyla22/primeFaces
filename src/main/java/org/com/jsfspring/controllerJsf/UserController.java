@@ -1,7 +1,7 @@
 package org.com.jsfspring.controllerJsf;
 
-import org.com.jsfspring.dto.request.AddUserDto;
-import org.com.jsfspring.dto.response.UserDto;
+import org.com.jsfspring.dto.request.AddUserRequest;
+import org.com.jsfspring.dto.response.UserResponse;
 import org.com.jsfspring.enums.Position;
 import org.com.jsfspring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,21 +22,21 @@ import java.util.List;
 @Scope("view")
 public class UserController {
 
-    private AddUserDto addUserDto;
+    private AddUserRequest addUserRequest;
 
     private Position position;
 
     @PostConstruct
     public void init() {
-        addUserDto = new AddUserDto();
+        addUserRequest = new AddUserRequest();
     }
 
     public Position getPosition() {
         return position;
     }
 
-    public AddUserDto getAddUserDto() {
-        return addUserDto;
+    public AddUserRequest getAddUserDto() {
+        return addUserRequest;
     }
 
     @Autowired
@@ -47,12 +47,12 @@ public class UserController {
         return Position.values();
     }
 
-    public List<UserDto> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers();
     }
 
     public void addNewUser() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        userService.addNewUser(addUserDto);
+        userService.addNewUser(addUserRequest);
     }
 
     public void reload() throws IOException {

@@ -4,14 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.com.jsfspring.controllerRest.base.BaseController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.com.jsfspring.dto.request.AddDelayDto;
-import org.com.jsfspring.dto.request.UpdateAttendance;
+import org.com.jsfspring.dto.request.AddDelayRequest;
+import org.com.jsfspring.dto.request.UpdateAttendanceRequest;
 import org.com.jsfspring.dto.response.ResponseDto;
 import org.com.jsfspring.enums.Status;
 import org.com.jsfspring.service.AttendRecordService;
 
 import java.util.UUID;
 
+/**
+ * RestController attendance
+ */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/attendance")
@@ -25,7 +28,7 @@ public class AttendanceRestController extends BaseController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<ResponseDto> addNewAttendance(@RequestBody AddDelayDto addDelayDto) {
+    public ResponseEntity<ResponseDto> addNewAttendance(@RequestBody AddDelayRequest addDelayDto) {
         return constructSuccessResponse(attendRecordService.addDelayMin(addDelayDto));
     }
 
@@ -35,8 +38,8 @@ public class AttendanceRestController extends BaseController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<ResponseDto> updateAttendance(@RequestBody UpdateAttendance updateAttendance) {
-        return constructSuccessResponse(attendRecordService.updateAttendanceById(updateAttendance));
+    public ResponseEntity<ResponseDto> updateAttendance(@RequestBody UpdateAttendanceRequest updateAttendanceRequest) {
+        return constructSuccessResponse(attendRecordService.updateAttendanceById(updateAttendanceRequest));
     }
 
     @GetMapping("/get-sum-loan-history")

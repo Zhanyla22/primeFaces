@@ -1,10 +1,10 @@
 package org.com.jsfspring.controllerJsf;
 
-import org.com.jsfspring.dto.request.AddDelayDto;
-import org.com.jsfspring.dto.request.UpdateAttendance;
-import org.com.jsfspring.dto.response.AllAttendance;
-import org.com.jsfspring.dto.response.LoanHistory;
-import org.com.jsfspring.dto.response.SaveDto;
+import org.com.jsfspring.dto.request.AddDelayRequest;
+import org.com.jsfspring.dto.request.UpdateAttendanceRequest;
+import org.com.jsfspring.dto.response.AllAttendanceResponse;
+import org.com.jsfspring.dto.response.LoanHistoryResponse;
+import org.com.jsfspring.dto.request.SaveDto;
 import org.com.jsfspring.enums.Status;
 import org.com.jsfspring.service.AttendRecordService;
 import org.com.jsfspring.service.impl.UserDetailServiceImpl;
@@ -33,13 +33,13 @@ public class TestController {
 
     private SaveDto saveDto;
 
-    private AllAttendance allAttendance;
+    private AllAttendanceResponse allAttendanceResponse;
 
     private Integer min;
 
     private Long changeId;
 
-    private LoanHistory loanHistory;
+    private LoanHistoryResponse loanHistoryResponse;
 
     public Long getChangeId() {
         return changeId;
@@ -59,21 +59,21 @@ public class TestController {
 
     @PostConstruct
     public void init() {
-        allAttendance = new AllAttendance();
+        allAttendanceResponse = new AllAttendanceResponse();
         saveDto = new SaveDto();
-        loanHistory = new LoanHistory();
+        loanHistoryResponse = new LoanHistoryResponse();
     }
 
     public SaveDto getSaveDto() {
         return saveDto;
     }
 
-    public AllAttendance getAllAttendance() {
-        return allAttendance;
+    public AllAttendanceResponse getAllAttendance() {
+        return allAttendanceResponse;
     }
 
-    public LoanHistory getLoanHistory() {
-        return loanHistory;
+    public LoanHistoryResponse getLoanHistory() {
+        return loanHistoryResponse;
     }
 
 //    public List<AllAttendance> getAllAttendanceByUserId() {
@@ -81,11 +81,11 @@ public class TestController {
 //        return attendRecordService.getAllAttendanceByUser();
 //    }
 
-    public List<AllAttendance> getAllAttendances() {
+    public List<AllAttendanceResponse> getAllAttendances() {
         return attendRecordService.getAllAttendance(Status.ACTIVE);
     }
 
-    public List<LoanHistory> getAllLoanHistory() {
+    public List<LoanHistoryResponse> getAllLoanHistory() {
         return attendRecordService.getAllLoanHistory();
     }
 
@@ -116,7 +116,7 @@ public class TestController {
 
     public void save() {
         attendRecordService.addDelayMin(
-                AddDelayDto.builder()
+                AddDelayRequest.builder()
                         .userId(saveDto.getUserId())
                         .date(saveDto.getDate())
                         .delayInMin(saveDto.getMin())
@@ -126,7 +126,7 @@ public class TestController {
     }
 
     public void update() {
-        attendRecordService.updateAttendanceById(UpdateAttendance.builder()
+        attendRecordService.updateAttendanceById(UpdateAttendanceRequest.builder()
                 .attendanceId(changeId)
                 .min(min)
                 .build());

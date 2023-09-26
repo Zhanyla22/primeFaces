@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
- * ответ при добавлении оплаты
+ * ответ при получении записи опоздания
  */
 @Getter
 @Setter
@@ -16,21 +16,27 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddPaymentResponse {
+public class AllAttendanceResponse {
 
     @NotNull
-    Long id;
+    @JsonProperty("attendance_id")
+    Long attendanceId;
 
     @NotNull
-    String uuid;
+    @JsonProperty("user_name")
+    String userName;
 
     @NotNull
-    @JsonProperty("user_first_name")
-    String userFirstName;
+    @JsonProperty("date_attendance")
+    LocalDate dateAttendance;
 
     @NotNull
-    LocalDate date;
+    @JsonProperty("delay_in_min")
+    Integer delayInMin;
 
     @NotNull
-    Long sum;
+    Integer streak;
+
+    @NotNull
+    Long money;
 }

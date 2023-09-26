@@ -1,20 +1,21 @@
 package org.com.jsfspring.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.com.jsfspring.dto.request.AddNewPayment;
+import org.com.jsfspring.dto.request.AddNewPaymentRequest;
 import org.com.jsfspring.dto.response.AddPaymentResponse;
+import org.com.jsfspring.dto.response.PaymentResponse;
+import org.com.jsfspring.dto.response.TokenValidResponse;
+import org.com.jsfspring.entity.Payment;
 import org.com.jsfspring.entity.UserEntity;
 import org.com.jsfspring.exceptions.BaseException;
 import org.com.jsfspring.mapper.PaymentMapper;
+import org.com.jsfspring.repo.PaymentRepo;
 import org.com.jsfspring.repo.UserRepo;
 import org.com.jsfspring.security.jwt.JWTService;
+import org.com.jsfspring.service.PaymentService;
 import org.com.jsfspring.service.PaymentServiceService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.com.jsfspring.dto.response.PaymentDto;
-import org.com.jsfspring.entity.Payment;
-import org.com.jsfspring.repo.PaymentRepo;
-import org.com.jsfspring.service.PaymentService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +27,13 @@ public class PaymentServiceServiceImpl implements PaymentServiceService {
 
     private final PaymentRepo paymentRepo;
     private final UserRepo userRepo;
-    private final UserDetailServiceImpl userDetailService;
     private final JWTService jwtService;
 
-    public static PaymentDto convert(PaymentService paymentService) {
-        return new PaymentDto(
+    /**
+     *    Конвертация сервиса в дто
+     */
+    public static PaymentResponse convert(PaymentService paymentService) {
+        return new PaymentResponse(
                 paymentService.getId(),
                 paymentService.getFirstName(),
                 paymentService.getCreatedDate(),
@@ -38,46 +41,58 @@ public class PaymentServiceServiceImpl implements PaymentServiceService {
         );
     }
 
+    /**
+     * получение всех оплат сотрудников
+     * @return лист PaymentResponse
+     */
     @Override
-    public List<PaymentDto> getAllPayment() {
+    public List<PaymentResponse> getAllPayment() {
         List<PaymentService> paymentServices = paymentRepo.getAllPayment();
-        List<PaymentDto> paymentDtos = new ArrayList<>();
+        List<PaymentResponse> paymentResponses = new ArrayList<>();
         for (PaymentService p : paymentServices) {
-            PaymentDto paymentDto = convert(p);
-            paymentDtos.add(paymentDto);
+            PaymentResponse paymentResponse = convert(p);
+            paymentResponses.add(paymentResponse);
         }
-        return paymentDtos;
+        return paymentResponses;
     }
 
+    /**
+     * добавление новой оплаты
+     * @param addNewPaymentRequest
+     * @return AddPaymentResponse
+     */
     @Override
-    public AddPaymentResponse addNewPayment(AddNewPayment addNewPayment) {
-        UserEntity userEntity = userRepo.findById(addNewPayment.getUserId()).orElseThrow(
-                () -> new BaseException("пользователь с id = "+addNewPayment.getUserId()+" не найден", HttpStatus.NOT_FOUND)
+    public AddPaymentResponse addNewPayment(AddNewPaymentRequest addNewPaymentRequest) {
+        UserEntity userEntity = userRepo.findById(addNewPaymentRequest.getUserId()).orElseThrow(
+                () -> new BaseException("пользователь с id = " + addNewPaymentRequest.getUserId() + " не найден", HttpStatus.NOT_FOUND)
         );
-        if (addNewPayment.getMoney() > 0) {
+        if (addNewPaymentRequest.getMoney() > 0) {
             Payment payment = new Payment();
             payment.setUserEntity(userEntity);
-            payment.setSum(addNewPayment.getMoney());
+            payment.setSum(addNewPaymentRequest.getMoney());
             payment.setUuid(UUID.randomUUID());
             paymentRepo.save(payment);
             return PaymentMapper.entityToPaymentDto(payment);
-        }
-        else throw new BaseException("оплата не добавлена, сумма должна быть больше 0", HttpStatus.BAD_REQUEST);
+        } else throw new BaseException("оплата не добавлена, сумма должна быть больше 0", HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * получение всех оплат сотрудника по jwt
+     * @param jwt
+     * @return лист PaymentResponse
+     */
     @Override
-    public List<PaymentDto> getAllPaymentByCurrentUser(String jwt) {
-        String token = jwt.substring(7); //substring проверка
-        if (!jwtService.isTokenExpired(token)) {
-            UserEntity userEntity = (UserEntity) userDetailService.loadUserByUsername(jwtService.extractUserName(token));
-            List<PaymentService> paymentServices = paymentRepo.getAllPaymentByUserId(userEntity.getId());
-            List<PaymentDto> paymentDtos = new ArrayList<>();
-            for (PaymentService p : paymentServices) {
-                PaymentDto paymentDto = convert(p);
-                paymentDtos.add(paymentDto);
-            }
-            return paymentDtos;
-        } else
-            return null;
+    public List<PaymentResponse> getAllPaymentByCurrentUser(String jwt) {
+        TokenValidResponse token = jwtService.validToken(jwt);
+        UserEntity userEntity = userRepo.findByUserName(token.getUserName()).orElseThrow(
+                () -> new BaseException("пользрватель с username =" + token.getUserName() + "не найден ", HttpStatus.NOT_FOUND)
+        );
+        List<PaymentService> paymentServices = paymentRepo.getAllPaymentByUserId(userEntity.getId());
+        List<PaymentResponse> paymentResponses = new ArrayList<>();
+        for (PaymentService p : paymentServices) {
+            PaymentResponse paymentResponse = convert(p);
+            paymentResponses.add(paymentResponse);
+        }
+        return paymentResponses;
     }
 }

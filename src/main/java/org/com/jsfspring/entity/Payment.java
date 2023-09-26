@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Сущность для учета оплат
+ */
 @Getter
 @Setter
 @Builder
@@ -19,8 +22,14 @@ import javax.persistence.Table;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Payment extends BaseEntity {
 
+    /**
+     * Сумма оплаты
+     */
     Long sum;
 
+    /**
+     * у пользователя может быть один и более оплат
+     */
     @ManyToOne(optional = false)
     @JoinColumn(columnDefinition = "user_id",
             referencedColumnName = "id")

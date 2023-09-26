@@ -1,21 +1,21 @@
 package org.com.jsfspring.service;
 
-import org.com.jsfspring.dto.request.AddUserDto;
-import org.com.jsfspring.dto.request.AuthDto;
+import org.com.jsfspring.dto.request.AddUserRequest;
+import org.com.jsfspring.dto.request.AuthRequest;
 import org.com.jsfspring.dto.request.UpdatePassRequest;
 import org.com.jsfspring.dto.response.AddUserResponse;
 import org.com.jsfspring.dto.response.AuthenticationResponse;
-import org.com.jsfspring.dto.response.UserDto;
+import org.com.jsfspring.dto.response.UserResponse;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<UserDto> getAllUsers();
+    List<UserResponse> getAllUsers();
 
-    AddUserResponse addNewUser(AddUserDto addUserDto);
+    AddUserResponse addNewUser(AddUserRequest addUserRequest);
 
-    AuthenticationResponse auth(AuthDto authDto);
+    AuthenticationResponse auth(AuthRequest authRequest);
 
     AuthenticationResponse refreshToken(String token);
 

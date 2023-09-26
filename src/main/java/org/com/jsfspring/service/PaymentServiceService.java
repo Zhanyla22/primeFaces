@@ -1,16 +1,16 @@
 package org.com.jsfspring.service;
 
-import org.com.jsfspring.dto.request.AddNewPayment;
+import org.com.jsfspring.dto.request.AddNewPaymentRequest;
 import org.com.jsfspring.dto.response.AddPaymentResponse;
-import org.com.jsfspring.dto.response.PaymentDto;
+import org.com.jsfspring.dto.response.PaymentResponse;
 
 import java.util.List;
 
 public interface PaymentServiceService {
 
-    List<PaymentDto> getAllPayment();
+    List<PaymentResponse> getAllPayment();
 
-    AddPaymentResponse addNewPayment(AddNewPayment addNewPayment);
+    AddPaymentResponse addNewPayment(AddNewPaymentRequest addNewPaymentRequest);
 
-    List<PaymentDto> getAllPaymentByCurrentUser(String token);
+    List<PaymentResponse> getAllPaymentByCurrentUser(String token);
 }

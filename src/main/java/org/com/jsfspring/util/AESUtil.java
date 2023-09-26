@@ -7,12 +7,20 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
 
+/**
+ * шифрование и дешифрование паролей по алгоритму AES для безопасной передачи
+ */
 @Service
 public class AESUtil {
 
     @Value("${aes.key}")
     private String PRIVATE_KEY;
 
+    /**
+     * @param strToEncrypt
+     * принимает пароль от пользователя в открытом виде
+     * @return зашифрованный пароль
+     */
     public String encrypt(String strToEncrypt) {
         try {
             SecretKeySpec secretKey = new SecretKeySpec(PRIVATE_KEY.getBytes("UTF-8"), "AES");
@@ -26,10 +34,16 @@ public class AESUtil {
         return null;
     }
 
+
+    /**
+     * @param encryptedString
+     * принимает зашифрованный пароль от фронта
+     * @return дешифрованный пароль
+     */
     public String decrypt(String encryptedString) {
         try {
             SecretKeySpec secretKey = new SecretKeySpec(PRIVATE_KEY.getBytes("UTF-8"), "AES");
-            Cipher cipher = Cipher.getInstance("AES"); //todo
+            Cipher cipher = Cipher.getInstance("AES");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder()
                     .decode(encryptedString)));

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+/**
+ * отправка mail На почту
+ */
 @RequiredArgsConstructor
 @Service
 public class EmailUtil {
@@ -16,6 +19,13 @@ public class EmailUtil {
 
     private final Environment environment;
 
+    /**
+     *
+     * @param toEmail - почта(куда отправить)
+     * @param subject - (тема)
+     * @param text - (текст письма)
+     *
+     */
     public void send(String toEmail, String subject, String text) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setSubject(subject);
@@ -25,6 +35,11 @@ public class EmailUtil {
         javaMailSender.send(simpleMailMessage);
     }
 
+    /**
+     * Проверка почты на валидность
+     * @param email
+     * @return true-false
+     */
     public boolean isValidEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);

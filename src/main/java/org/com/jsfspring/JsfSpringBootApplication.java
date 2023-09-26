@@ -12,6 +12,10 @@ import org.springframework.web.context.ServletContextAware;
 import javax.faces.webapp.FacesServlet;
 import javax.servlet.ServletContext;
 
+/**
+ * @author Zhanyl Mamytova
+ * @version 1.0
+ */
 @SpringBootApplication
 public class JsfSpringBootApplication implements ServletContextAware {
 

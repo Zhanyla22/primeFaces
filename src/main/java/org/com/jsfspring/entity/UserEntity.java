@@ -14,6 +14,9 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Сущность пользователь
+ */
 @Getter
 @Setter
 @Builder
@@ -24,9 +27,17 @@ import java.util.Collections;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity extends BaseEntity implements UserDetails {
 
+    /**
+     * userName не может быть null
+     */
+    @NotNull
     @Column(name = "user_name")
     String userName;
 
+    /**
+     * пароль не может бытьб null
+     */
+    @NotNull
     @Column(name = "password")
     String password;
 
@@ -36,6 +47,9 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Column(name = "last_name")
     String lastName;
 
+    /**
+     * Должность на работе
+     */
     @Enumerated(EnumType.STRING)
     Position position;
 

@@ -5,10 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 /**
- * ответ при добавлении опоздания
+ * для получения данных о задолженности, сколько оплатил и сколько осталось(в сомах)
  */
 @Getter
 @Setter
@@ -16,26 +15,24 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddAttendResponse {
+public class LoanHistoryResponse {
 
     @NotNull
     @JsonProperty("user_id")
     Long userId;
 
     @NotNull
-    @JsonProperty("attend_date")
-    LocalDate attendDate;
+    @JsonProperty("user_name")
+    String userName;
 
     @NotNull
-    @JsonProperty("delay_in_min")
-    Integer delayInMin;
+    @JsonProperty("loan_sum")
+    Long loanSum;
 
     @NotNull
-    Integer streak;
+    @JsonProperty("balance_sum")
+    Long balanceSum;
 
     @NotNull
-    Long money;
-
-    @NotNull
-    String uuid;
+    Long left;
 }

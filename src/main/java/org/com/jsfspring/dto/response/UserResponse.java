@@ -5,10 +5,9 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 /**
- * ответ при добавлении оплаты
+ * для получения пользователя с id
  */
 @Getter
 @Setter
@@ -16,21 +15,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class AddPaymentResponse {
+public class UserResponse {
 
     @NotNull
-    Long id;
+    @JsonProperty("user_id")
+    Long userId;
 
     @NotNull
-    String uuid;
-
-    @NotNull
-    @JsonProperty("user_first_name")
-    String userFirstName;
-
-    @NotNull
-    LocalDate date;
-
-    @NotNull
-    Long sum;
+    String name;
 }

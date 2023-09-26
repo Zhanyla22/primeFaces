@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * повторяющиеся поля из entity были вынесены на отдельный класс как BaseEntity
+ */
 @MappedSuperclass
 @NoArgsConstructor
 @Getter
@@ -21,6 +24,9 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    /**
+     *uuid используется для манипуляции данными вместо id для более безопасного зарпоса
+     */
     @Column(name = "uuid")
     UUID uuid;
 
@@ -30,11 +36,19 @@ public class BaseEntity {
     @Column(name = "updated_date")
     LocalDateTime updatedDate;
 
+    /**
+     * при создании новой записи
+     * берет дату(LocalDateTime) на данный момент и сохраняет на поле createdDate
+     */
     @PrePersist
     public void prePersist() {
         this.createdDate = LocalDateTime.now();
     }
 
+    /**
+     * при обновлении  записи
+     * берет дату(LocalDateTime) на данный момент и сохраняет на поле updatedDate
+     */
     @PreUpdate
     public void preUpdate() {
         this.updatedDate = LocalDateTime.now();

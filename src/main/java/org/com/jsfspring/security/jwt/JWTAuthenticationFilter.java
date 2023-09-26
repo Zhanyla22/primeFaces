@@ -23,6 +23,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Фильтр аутентификации
+ * обрабатывает запросы клиента
+ * проверяет аутентификацию пользователя перед выполнением операций
+ */
 @Component
 @RequiredArgsConstructor
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
@@ -32,9 +37,17 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     private final UserDetailsService userDetailsService;
 
     @Autowired
-    @Qualifier("handlerExceptionResolver") //TODO:READ
+    @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
 
+    /**
+     * Вызывается для каждого HTTP запроса клиента
+     * @param request - HTTP запрос от клиента
+     * @param response- HTTP ответ который отправляется клиенту
+     * @param filterChain - фильтры которым передается запрос после этого фильтра
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,

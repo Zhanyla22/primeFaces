@@ -1,12 +1,12 @@
 package org.com.jsfspring.controllerJsf;
 
-import org.com.jsfspring.dto.request.AddNewPayment;
+import org.com.jsfspring.dto.request.AddNewPaymentRequest;
 import org.com.jsfspring.service.PaymentServiceService;
 import org.com.jsfspring.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.com.jsfspring.dto.response.PaymentDto;
+import org.com.jsfspring.dto.response.PaymentResponse;
 
 import javax.annotation.PostConstruct;
 import javax.faces.context.ExternalContext;
@@ -19,9 +19,9 @@ import java.util.List;
 @Scope("view")
 public class PaymentController {
 
-    private PaymentDto paymentDto;
+    private PaymentResponse paymentResponse;
 
-    private AddNewPayment addNewPayment;
+    private AddNewPaymentRequest addNewPaymentRequest;
 
     @Autowired
     private UserDetailServiceImpl userDetailsService;
@@ -31,19 +31,19 @@ public class PaymentController {
 
     @PostConstruct
     public void init() {
-        paymentDto = new PaymentDto();
-        addNewPayment = new AddNewPayment();
+        paymentResponse = new PaymentResponse();
+        addNewPaymentRequest = new AddNewPaymentRequest();
     }
 
-    public PaymentDto getPaymentDto() {
-        return paymentDto;
+    public PaymentResponse getPaymentDto() {
+        return paymentResponse;
     }
 
-    public AddNewPayment getAddNewPayment() {
-        return addNewPayment;
+    public AddNewPaymentRequest getAddNewPayment() {
+        return addNewPaymentRequest;
     }
 
-    public List<PaymentDto> getAllPayment() {
+    public List<PaymentResponse> getAllPayment() {
         return paymentServiceService.getAllPayment();
     }
 
@@ -53,7 +53,7 @@ public class PaymentController {
 //    }
 
     public void add() {
-        paymentServiceService.addNewPayment(addNewPayment);
+        paymentServiceService.addNewPayment(addNewPaymentRequest);
     }
 
     public void reload() throws IOException {

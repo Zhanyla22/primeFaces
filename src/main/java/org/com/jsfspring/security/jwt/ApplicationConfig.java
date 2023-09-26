@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * содержит конфигурацию Spring security
+ */
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
@@ -25,6 +28,13 @@ public class ApplicationConfig {
                 .orElseThrow(() -> new UsernameNotFoundException("пользователь не найден"));
     }
 
+    /**
+     * конфигурация для аутентификации пользователей
+     * используется DaoAuthenticationProvider, который использует UserDetailsService для загрузки информации о пользователе
+     * PasswordEncoder для проверки пароля
+     * Отвечает за проверку подлинности пользователей
+     * @return autProvider
+     */
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider autProvider = new DaoAuthenticationProvider();
@@ -33,6 +43,12 @@ public class ApplicationConfig {
         return autProvider;
     }
 
+    /**
+     * управляет проуессом аутентификации
+     * @param config
+     * @return
+     * @throws Exception
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -42,9 +58,4 @@ public class ApplicationConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new Pbkdf2PasswordEncoder();
-//    }
 }

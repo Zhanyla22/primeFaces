@@ -35,7 +35,7 @@
             </div>
         </div>
         <p:dialog header="Новая оплата" id="modal" widgetVar="dlg2" modal="true" width="25%" height="140">
-            <p:selectOneMenu id="userId" value="#{paymentRestController.addNewPayment.userId}" style="width: 67.5% !important"
+            <p:selectOneMenu id="userId" value="#{paymentRestController.addNewPaymentRequest.userId}" style="width: 67.5% !important"
                              required="true">
                 <f:selectItem itemLabel="выберите сотрудника" itemValue="" noSelectionOption="false"/>
                 <f:selectItems id="labeled" value="#{userController.allUsers}" var="labeled"
@@ -44,7 +44,7 @@
             </p:selectOneMenu>
 
             <br/> <br/>
-            <p:inputText id="money" placeholder="деньги"  required="true" value="#{paymentRestController.addNewPayment.money}" /> <br/>
+            <p:inputText id="money" placeholder="деньги"  required="true" value="#{paymentRestController.addNewPaymentRequest.money}" /> <br/>
             <br/>
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate/>

@@ -7,6 +7,9 @@ import org.com.jsfspring.service.PaymentService;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * Реализация методов payment
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
@@ -16,9 +19,6 @@ public class PaymentServiceImpl implements PaymentService {
     private LocalDate createdDate;
     private Long sum;
 
-    /**
-     * @return test teste tse
-     */
     @Override
     public Long getId() {
         return id;

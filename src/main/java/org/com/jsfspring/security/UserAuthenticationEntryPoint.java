@@ -12,6 +12,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * * если пользователь не аутентифицирован и
+ * хочет получить доступ к закрытым эндпоинтам,
+ * сервер отправляет ответ с кодом 401-unauthorized
+ */
 @Component
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override

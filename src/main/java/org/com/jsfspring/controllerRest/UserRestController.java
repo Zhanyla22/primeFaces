@@ -2,8 +2,8 @@ package org.com.jsfspring.controllerRest;
 
 import lombok.RequiredArgsConstructor;
 import org.com.jsfspring.controllerRest.base.BaseController;
-import org.com.jsfspring.dto.request.AddUserDto;
-import org.com.jsfspring.dto.request.AuthDto;
+import org.com.jsfspring.dto.request.AddUserRequest;
+import org.com.jsfspring.dto.request.AuthRequest;
 import org.com.jsfspring.dto.request.UpdatePassRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,9 +12,9 @@ import org.com.jsfspring.dto.response.ResponseDto;
 import org.com.jsfspring.service.UserService;
 import org.com.jsfspring.util.AESUtil;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
+/**
+ * RestController users
+ */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/users")
@@ -32,8 +32,8 @@ public class UserRestController extends BaseController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<ResponseDto> auth(@RequestBody AuthDto authDto) {
-        return constructSuccessResponse(userService.auth(authDto));
+    public ResponseEntity<ResponseDto> auth(@RequestBody AuthRequest authRequest) {
+        return constructSuccessResponse(userService.auth(authRequest));
     }
 
     @PostMapping("/encrypt")
@@ -47,8 +47,8 @@ public class UserRestController extends BaseController {
     }
 
     @PostMapping("/add-user")
-    public ResponseEntity<ResponseDto> addNewUser(@RequestBody AddUserDto addUserDto){
-        return constructSuccessResponse(userService.addNewUser(addUserDto));
+    public ResponseEntity<ResponseDto> addNewUser(@RequestBody AddUserRequest addUserRequest){
+        return constructSuccessResponse(userService.addNewUser(addUserRequest));
     }
 
     @PostMapping("/update-pass")

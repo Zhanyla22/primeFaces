@@ -19,6 +19,10 @@ import org.com.jsfspring.security.jwt.JWTAuthenticationFilter;
 
 import java.util.Arrays;
 
+
+/**
+ * общяя конфигурация безопасности
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -30,11 +34,17 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final UserAuthenticationEntryPoint authenticationEntryPoint;
 
+    /**
+     * открытые эндпоинты
+     */
     final String[] WHITELISTED_ENDPOINTS = {
             "/users/auth",
             "/users/encrypt"
     };
 
+    /**
+     * эндпоинты для ADMIN
+     */
     final String[] ADMIN_ENDPOINTS = {
             "/users/all",
             "/users/add-user",
@@ -50,6 +60,9 @@ public class SecurityConfig {
             "/attendance/get-sum-attendance"
     };
 
+    /**
+     * эндпоинты для USER
+     */
     final String[] USER_ENDPOINTS = {
             "/users/update-pass",
             "/payment/get-current-user-payments",
@@ -59,6 +72,10 @@ public class SecurityConfig {
             "/attendance/get-current-user-left"
     };
 
+    /**
+     * настройка cors - открыт всем
+     * @return
+     */
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

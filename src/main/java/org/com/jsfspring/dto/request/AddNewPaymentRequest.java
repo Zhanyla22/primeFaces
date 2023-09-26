@@ -7,21 +7,21 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotNull;
 
 /**
- * dto для обновления пароля-для пользователя
+ * dto для добавления оплаты -reqyest
  */
+
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdatePassRequest {
+public class AddNewPaymentRequest {
 
     @NotNull
-    @JsonProperty("old_password")
-    String oldPassword;
+    @JsonProperty("user_id")
+    Long userId;
 
     @NotNull
-    @JsonProperty("new_password")
-    String newPassword;
+    Long money;
 }

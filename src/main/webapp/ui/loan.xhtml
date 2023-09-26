@@ -35,11 +35,11 @@
         </div>
 
         <p:dialog header="Добавить сотрудника" id="modal" widgetVar="dlg2" modal="true" width="25%" height="310">
-            <p:inputText id="username" placeholder="логин" value="#{userController.addUserDto.userName}" required="true"/> <br/>
+            <p:inputText id="username" placeholder="логин" value="#{userController.addUserRequest.userName}" required="true"/> <br/>
             <br/>
-            <p:inputText id="firstName" placeholder="имя" value="#{userController.addUserDto.firstName}" required="true"/> <br/>
+            <p:inputText id="firstName" placeholder="имя" value="#{userController.addUserRequest.firstName}" required="true"/> <br/>
             <br/>
-            <p:inputText id="lastName" placeholder="фамилия" value="#{userController.addUserDto.lastName}" required="true"/> <br/>
+            <p:inputText id="lastName" placeholder="фамилия" value="#{userController.addUserRequest.lastName}" required="true"/> <br/>
             <br/> <br/>
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate/>

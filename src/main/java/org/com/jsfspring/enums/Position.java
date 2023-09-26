@@ -1,5 +1,8 @@
 package org.com.jsfspring.enums;
 
+/**
+ * должности 
+ */
 public enum Position {
     BACK("бэкенд"),
     FRONT("фронт"),

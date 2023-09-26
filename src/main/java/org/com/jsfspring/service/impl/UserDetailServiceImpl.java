@@ -18,6 +18,12 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     private final UserRepo userRepo;
 
+    /**
+     * имплементация loadUserByUsername
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepo.findByUserName(username).orElseThrow(

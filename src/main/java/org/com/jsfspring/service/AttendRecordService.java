@@ -1,10 +1,10 @@
 package org.com.jsfspring.service;
 
-import org.com.jsfspring.dto.request.AddDelayDto;
-import org.com.jsfspring.dto.request.UpdateAttendance;
+import org.com.jsfspring.dto.request.AddDelayRequest;
+import org.com.jsfspring.dto.request.UpdateAttendanceRequest;
 import org.com.jsfspring.dto.response.AddAttendResponse;
-import org.com.jsfspring.dto.response.AllAttendance;
-import org.com.jsfspring.dto.response.LoanHistory;
+import org.com.jsfspring.dto.response.AllAttendanceResponse;
+import org.com.jsfspring.dto.response.LoanHistoryResponse;
 import org.com.jsfspring.enums.Status;
 
 import java.util.List;
@@ -13,15 +13,15 @@ import java.util.UUID;
 
 public interface AttendRecordService {
 
-    AddAttendResponse addDelayMin(AddDelayDto addDelayDto);
+    AddAttendResponse addDelayMin(AddDelayRequest addDelayDto);
 
-    List<AllAttendance> getAllAttendance(Status status);
+    List<AllAttendanceResponse> getAllAttendance(Status status);
 
     String deleteById(UUID uuid); //TODO: уточнить что возвращать
 
-    UpdateAttendance updateAttendanceById(UpdateAttendance updateAttendance);
+    UpdateAttendanceRequest updateAttendanceById(UpdateAttendanceRequest updateAttendanceRequest);
 
-    List<AllAttendance> getAllAttendanceByUser(String token);
+    List<AllAttendanceResponse> getAllAttendanceByUser(String token);
 
     Long getAllSumByUser(String token); //TODO: можно ли возвращать примю тип данных одних
 
@@ -31,7 +31,7 @@ public interface AttendRecordService {
 
     Long getBalanceByUser(String token); //TODO: ?
 
-    List<LoanHistory> getAllLoanHistory();
+    List<LoanHistoryResponse> getAllLoanHistory();
 
     Long getSumRestLeft(); //TODO: ?
 

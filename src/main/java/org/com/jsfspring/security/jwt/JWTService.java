@@ -6,7 +6,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.com.jsfspring.dto.response.AuthenticationResponse;
+import org.com.jsfspring.dto.response.TokenValidResponse;
+import org.com.jsfspring.exceptions.BaseException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * для создания, извлечения и проверки JWT
+ */
 @Service
 public class JWTService {
 
@@ -84,5 +90,20 @@ public class JWTService {
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public TokenValidResponse validToken(String jwt){
+        if(jwt.contains("Bearer ")){
+            String token  = jwt.substring(7);
+            if(!isTokenExpired(token)){
+                String userName = extractUserName(token);
+                return TokenValidResponse.builder()
+                        .token(token)
+                        .userName(userName)
+                        .build();
+            }
+            else throw new BaseException("токен истек", HttpStatus.NOT_FOUND);
+        }
+        else throw new BaseException("токен не найден", HttpStatus.NOT_FOUND);
     }
 }
